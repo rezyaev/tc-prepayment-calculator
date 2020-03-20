@@ -102,11 +102,11 @@ const formatSalary = salary => {
     .toFixed()
     .split('')
     .reduceRight((formattedSalary, digit) => {
-      const length = formattedSalary.length;
+      const length = formattedSalary.split(' ').join('').length;
 
       if (length === 0) return digit;
 
-      return formattedSalary.length % 3 === 0
+      return length % 3 === 0
         ? `${digit} ${formattedSalary}`
         : `${digit}${formattedSalary}`;
     }, '');
