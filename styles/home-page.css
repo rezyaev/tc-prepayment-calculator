@@ -1,0 +1,48 @@
+body {
+	display: grid;
+	grid: 1fr 4fr 4fr / 1fr;
+	justify-items: center;
+	align-items: center;
+
+	padding: var(--size-1);
+
+	background-color: hsl(210, 36%, 96%);
+}
+
+h1 {
+	align-self: start;
+
+	font-size: var(--font-size-5);
+	color: var(--neutral-9);
+}
+
+form {
+	width: 100%;
+	max-width: var(--size-12);
+	padding: var(--size-1);
+}
+
+.salary-division {
+	display: flex;
+	flex-direction: column;
+}
+
+.salary-division div:first-child {
+	margin-bottom: var(--size-1);
+}
+
+.payment-type {
+	text-align: center;
+	font-size: var(--font-size-5);
+}
+
+.payment-type span {
+	font-size: var(--font-size-2);
+	color: var(--neutral-4);
+}
+
+.payment-value {
+	font-size: 36px;
+	text-align: center;
+	color: var(--primary-5);
+}

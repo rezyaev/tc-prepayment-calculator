@@ -1,13 +1,21 @@
 @font-face {
-  font-family: "Roboto";
-  src: url("../assets/fonts/roboto-regular.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
+	font-family: 'Roboto';
+	src: url('../assets/fonts/roboto-regular.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
 
 @font-face {
-  font-family: "Roboto";
-  src: url("../assets/fonts/roboto-bold.woff") format("woff");
-  font-weight: bold;
-  font-style: normal;
+	font-family: 'Roboto';
+	src: url('../assets/fonts/roboto-bold.woff') format('woff');
+	font-weight: bold;
+	font-style: normal;
+}
+
+/* Default font */
+body {
+	font-size: var(--font-size-2);
+	font-family: 'Roboto', sans-serif;
+	line-height: 1.5;
+	color: var(--neutral-8);
 }

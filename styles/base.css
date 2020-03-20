@@ -1,0 +1,12 @@
+*,
+*::after,
+*::before {
+	/* border-box is more intuitive and consistent for styling */
+	box-sizing: border-box;
+}
+
+html,
+body {
+	/* height: 100vh is not used, as it causes bug on mobile browsers */
+	height: 100%;
+}
