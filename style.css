@@ -1,0 +1,98 @@
+/* === RESET === */
+
+h1,
+body,
+p {
+  margin: 0;
+}
+
+/* === GENERIC === */
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/* === MAIN PAGE === */
+body {
+  display: grid;
+  grid: 1fr 4fr 4fr / 1fr;
+  justify-items: center;
+  align-items: center;
+  padding: 16px;
+  background-color: hsl(210, 36%, 96%);
+  font: 400 16px/1.5 'Roboto', sans-serif;
+  color: hsl(211, 39%, 23%);
+}
+
+h1 {
+  font-size: 24px;
+  align-self: start;
+  color: hsl(209, 61%, 16%);
+}
+
+form {
+  width: 100%;
+  max-width: 384px;
+  padding: 16px;
+}
+
+.salary-division {
+  display: flex;
+  flex-direction: column;
+}
+
+.salary-division div:first-child {
+  margin-bottom: 24px;
+}
+
+.payment-type {
+  text-align: center;
+  font-size: 24px;
+}
+
+.payment-type span {
+  font-size: 16px;
+  color: hsl(209, 23%, 60%);
+}
+
+.payment-value {
+  text-align: center;
+  font-size: 36px;
+  color: hsl(164, 71%, 34%);
+}
+
+/* === FORMS === */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 6px;
+  border: 1px solid hsl(211, 27%, 70%);
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.form-control:focus {
+  border-color: hsl(205, 74%, 65%);
+  outline: 0;
+  box-shadow: 0 0 0 3px hsl(205, 97%, 85%);
+}
+
+.form-control:invalid {
+  border: 1px solid hsl(360, 67%, 44%);
+  box-shadow: 0 0 0 1.5px hsl(360, 77%, 78%);
+}
