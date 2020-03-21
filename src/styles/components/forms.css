@@ -24,7 +24,7 @@
 .form-control {
 	display: block;
 	width: 100%;
-	padding: 6px;
+	padding: var(--size-1);
 	border: 1px solid var(--neutral-3);
 	border-radius: var(--size-0);
 	font-size: var(--font-size-2);

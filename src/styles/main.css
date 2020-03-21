@@ -1,4 +1,6 @@
+/* Generic global styles */
 @import './variables.css';
 @import './base.css';
-@import './typography.css';
+
+/* Reusable components */
 @import './components/forms.css';
