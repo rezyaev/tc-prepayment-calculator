@@ -1,5 +1,5 @@
 :root {
-	/* General sizes (for margins, paddings, width, etc.) */
+	/* General sizes system (for margins, paddings, width, etc.) */
 	--size-0: 4px;
 	--size-1: 8px;
 	--size-2: 12px;
@@ -17,6 +17,7 @@
 	--size-14: 640px;
 	--size-15: 768px;
 
+	/* Font sizes system */
 	--font-size-0: 12px;
 	--font-size-1: 14px;
 	--font-size-2: 16px;
@@ -29,6 +30,7 @@
 	--font-size-9: 60px;
 	--font-size-10: 72px;
 
+	/* Primary colors (teal) */
 	--primary-0: #effcf6;
 	--primary-1: #c6f7e2;
 	--primary-2: #8eedc7;
@@ -40,6 +42,7 @@
 	--primary-8: #0c6b58;
 	--primary-9: #014d40;
 
+	/* Neutral color (grey-blue) */
 	--neutral-0: #f0f4f8;
 	--neutral-1: #d9e2ec;
 	--neutral-2: #bcccdc;
@@ -52,6 +55,8 @@
 	--neutral-9: #102a43;
 
 	/* Supporting colors */
+
+	/* Blue accent */
 	--blue-0: #dceefb;
 	--blue-1: #b6e0fe;
 	--blue-2: #84c5f4;
@@ -63,6 +68,7 @@
 	--blue-8: #0a558c;
 	--blue-9: #003e6b;
 
+	/* Purple accent */
 	--purple-0: #eae2f8;
 	--purple-1: #cfbcf2;
 	--purple-2: #a081d9;
@@ -74,6 +80,7 @@
 	--purple-8: #34126f;
 	--purple-9: #240754;
 
+	/* Red error */
 	--red-0: #ffeeee;
 	--red-1: #facdcd;
 	--red-2: #f29b9b;
@@ -85,6 +92,7 @@
 	--red-8: #780a0a;
 	--red-9: #610404;
 
+	/* Yellow warning */
 	--yellow-0: #fffaeb;
 	--yellow-1: #fcefc7;
 	--yellow-2: #f8e3a3;
