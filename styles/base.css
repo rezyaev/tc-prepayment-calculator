@@ -1,3 +1,4 @@
+/* GENERIC */
 *,
 *::after,
 *::before {
@@ -9,4 +10,11 @@ html,
 body {
 	/* height: 100vh is not used, as it causes bug on mobile browsers */
 	height: 100%;
+}
+
+/* RESET */
+h1,
+body,
+p {
+	margin: 0;
 }
