@@ -1,51 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TC Калькулятор Аванса</title>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>TC Калькулятор Аванса</title>
 
-    <link rel="stylesheet" href="./styles/main.css" />
-    <script src="script.js" defer></script>
-  </head>
-  <body>
-    <h1>TC Калькулятор Аванса</h1>
+		<link rel="stylesheet" href="./styles/main.css" />
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<h1>TC Калькулятор Аванса</h1>
 
-    <div class="salary-division">
-      <div>
-        <p class="payment-type">Аванс <span id="prepayment-date"></span></p>
-        <p class="payment-value" id="prepayment">N/D</p>
-      </div>
+		<div class="salary-division">
+			<div>
+				<p class="payment-type">Аванс <span id="prepayment-date"></span></p>
+				<p class="payment-value" id="prepayment">N/D</p>
+			</div>
 
-      <div>
-        <p class="payment-type">Зарплата <span id="salary-date"></span></p>
-        <p class="payment-value" id="remaining-salary">N/D</p>
-      </div>
-    </div>
+			<div>
+				<p class="payment-type">Зарплата <span id="salary-date"></span></p>
+				<p class="payment-value" id="salary">N/D</p>
+			</div>
+		</div>
 
-    <form>
-      <div class="form-group">
-        <label for="salary">Зарплата</label>
-        <input type="number" id="salary" class="form-control" />
-      </div>
+		<form>
+			<div class="form-group">
+				<label for="salary">Зарплата</label>
+				<input type="number" id="salary-input" class="form-control" />
+			</div>
 
-      <div class="form-group">
-        <label for="month">Месяц</label>
-        <select id="month" class="form-control">
-          <option value="january">Январь</option>
-          <option value="february">Февраль</option>
-          <option value="march">Март</option>
-          <option value="april">Апрель</option>
-          <option value="may">Май</option>
-          <option value="june">Июнь</option>
-          <option value="july">Июль</option>
-          <option value="august">Август</option>
-          <option value="september">Сентябрь</option>
-          <option value="october">Октябрь</option>
-          <option value="november">Ноябрь</option>
-          <option value="december">Декабрь</option>
-        </select>
-      </div>
-    </form>
-  </body>
+			<div class="form-group">
+				<label for="month">Месяц</label>
+				<select id="month-select" class="form-control">
+					<option value="january">Январь</option>
+					<option value="february">Февраль</option>
+					<option value="march">Март</option>
+					<option value="april">Апрель</option>
+					<option value="may">Май</option>
+					<option value="june">Июнь</option>
+					<option value="july">Июль</option>
+					<option value="august">Август</option>
+					<option value="september">Сентябрь</option>
+					<option value="october">Октябрь</option>
+					<option value="november">Ноябрь</option>
+					<option value="december">Декабрь</option>
+				</select>
+			</div>
+		</form>
+	</body>
 </html>
