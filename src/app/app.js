@@ -44,13 +44,11 @@ export class App extends HTMLElement {
 	}
 
 	/**
-	 * Calculate prepayment using this math:
-	 * ratio:
-	 *   all salary - all days
-	 *   prepayment - first half days
-	 *
-	 * find prepayment:
-	 *   prepayment = (all salary * first half days) / all days
+	 * Calculate prepayment using this formula:
+	 * prepayment = (all salary * first half days) / all days
+	 * 
+	 * @example
+	 * 	 calculatePrepayment('march', 100000); // 42857
 	 *
 	 * @param {string} month
 	 * @param {number} salary
@@ -77,6 +75,7 @@ export class App extends HTMLElement {
 			.toFixed()
 			.split('')
 			.reduceRight((formattedSalary, digit) => {
+				// length of string without spaces
 				const length = formattedSalary.split(' ').join('').length;
 
 				if (length === 0) return digit;
@@ -90,8 +89,9 @@ export class App extends HTMLElement {
 	}
 
 	/**
-	 *
+	 * Finds in what dates salary will be paid and displays it in html
 	 * @param {string} month
+	 * @returns {void}
 	 */
 	displaySalaryDates(month) {
 		const monthIndex = Object.keys(workdaysRatios).indexOf(month);
