@@ -35,9 +35,6 @@ export class App extends HTMLElement {
 	}
 
 	setEventListeners() {
-		this.formElement.addEventListener('change', (event) =>
-			this.displaySalaryDivision(event)
-		);
 		this.formElement.addEventListener('input', (event) =>
 			this.displaySalaryDivision(event)
 		);
@@ -46,7 +43,7 @@ export class App extends HTMLElement {
 	/**
 	 * Calculate prepayment using this formula:
 	 * prepayment = (all salary * first half days) / all days
-	 * 
+	 *
 	 * @example
 	 * 	 calculatePrepayment('march', 100000); // 42857
 	 *
@@ -123,7 +120,7 @@ export class App extends HTMLElement {
 
 		this.displaySalaryDates(month);
 
-		if (!salary) {
+		if (!salary || salary < 0 || salary > 100000000) {
 			this.prepaymentParagraphElement.textContent = 'N/D';
 			this.salaryParagraphElement.textContent = 'N/D';
 

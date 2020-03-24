@@ -18,12 +18,18 @@
 <form>
 	<div class="form-group">
 		<label for="salary">Зарплата</label>
-		<input type="number" id="salary-input" class="form-control" />
+		<input
+			class="form-control"
+			id="salary-input"
+			type="number"
+			min="0"
+			max="100000000"
+		/>
 	</div>
 
 	<div class="form-group">
 		<label for="month">Месяц</label>
-		<select id="month-select" class="form-control">
+		<select class="form-control" id="month-select">
 			<option value="january">Январь</option>
 			<option value="february">Февраль</option>
 			<option value="march">Март</option>
