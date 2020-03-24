@@ -19,6 +19,16 @@ p {
 	margin: 0;
 }
 
+select {
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+/* Remove spinner on Firefox */
+input[type='number'] {
+	-moz-appearance: textfield;
+}
+
 /* TYPOGRAPHY */
 @font-face {
 	font-family: 'Roboto';
