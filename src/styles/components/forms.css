@@ -40,3 +40,11 @@
 	border: 1px solid var(--red-4);
 	box-shadow: 0 0 0 2px var(--red-1);
 }
+
+/* Little arrow on the right of the select */
+select.form-control {
+	background:
+		no-repeat right var(--size-0) center/var(--size-4)
+		url('../../assets/icons/icon-cheveron-down.svg'),
+		#ffffff;
+}
