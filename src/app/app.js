@@ -9,7 +9,7 @@ export class App extends HTMLElement {
 	}
 
 	async setTemplate() {
-		const template = await (await fetch('/app/app.html')).text();
+		const template = await (await fetch('/src/app/app.html')).text();
 
 		this.shadow = this.attachShadow({ mode: 'closed' });
 		this.shadow.innerHTML = template;
