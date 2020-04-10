@@ -28,7 +28,7 @@ export class App extends HTMLElement {
 		this.salaryParagraphElement = this.shadow.querySelector('#salary');
 		/** @type {HTMLSpanElement} */
 		this.prepaymentDateSpanElement = this.shadow.querySelector(
-			'#prepayment-date'
+			'#advance-date'
 		);
 		/** @type {HTMLSpanElement} */
 		this.salaryDateSpanElement = this.shadow.querySelector('#salary-date');
