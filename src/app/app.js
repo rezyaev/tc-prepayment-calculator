@@ -27,9 +27,7 @@ export class App extends HTMLElement {
 		/** @type {HTMLParagraphElement} */
 		this.salaryParagraphElement = this.shadow.querySelector('#salary');
 		/** @type {HTMLSpanElement} */
-		this.prepaymentDateSpanElement = this.shadow.querySelector(
-			'#advance-date'
-		);
+		this.prepaymentDateSpanElement = this.shadow.querySelector('#advance-date');
 		/** @type {HTMLSpanElement} */
 		this.salaryDateSpanElement = this.shadow.querySelector('#salary-date');
 	}
@@ -120,7 +118,7 @@ export class App extends HTMLElement {
 
 		this.displaySalaryDates(month);
 
-		if (!salary || salary < 0 || salary > 100000000) {
+		if (!salary || salary < 0 || salary > Number.MAX_SAFE_INTEGER) {
 			this.prepaymentParagraphElement.textContent = 'N/D';
 			this.salaryParagraphElement.textContent = 'N/D';
 
