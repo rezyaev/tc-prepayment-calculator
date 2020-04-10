@@ -1,6 +1,10 @@
-/* Generic global styles */
+/* 
+    Main CSS file for the global styles.
+    All other global style CSS files are imported here
+    from more generic towards more specific.
+*/
+
 @import './variables.css';
 @import './base.css';
 
-/* Reusable components */
 @import './components/forms.css';

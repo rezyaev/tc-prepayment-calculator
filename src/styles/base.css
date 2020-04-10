@@ -1,4 +1,8 @@
-/* GENERIC */
+/* 
+	Basic CSS that makes styling more comfortable,
+	some default values and resetting browsers' inconsistencies.
+*/
+
 *,
 *::after,
 *::before {
@@ -12,7 +16,6 @@ body {
 	height: 100%;
 }
 
-/* RESET */
 h1,
 body,
 p {
@@ -29,7 +32,6 @@ input[type='number'] {
 	-moz-appearance: textfield;
 }
 
-/* TYPOGRAPHY */
 @font-face {
 	font-family: 'Roboto';
 	src: url('../assets/fonts/roboto-regular.woff') format('woff');
