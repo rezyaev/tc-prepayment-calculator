@@ -32,7 +32,7 @@ const workdaysRatios = {
   },
   april: {
     firstHalf: 11,
-    secondHalf: 10
+    secondHalf: 11
   },
   may: {
     firstHalf: 7,
