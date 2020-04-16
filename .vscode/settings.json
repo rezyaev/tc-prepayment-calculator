@@ -1,4 +1,7 @@
 {
     "javascript.implicitProjectConfig.checkJs": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "prettier.singleQuote": true,
+    "prettier.useTabs": true,
+    "prettier.trailingComma": "none"
 }
