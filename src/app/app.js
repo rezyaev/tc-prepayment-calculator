@@ -4,8 +4,8 @@
 */
 
 import { calculateAdvance } from './modules/advance-calculation.js';
-import { formatMoney } from './modules/format-money.js';
-import { fetchTemplate } from './modules/fetch-template.js';
+import { formatMoney } from './modules/money-formatting.js';
+import { fetchTemplate } from './modules/template-fetching.js';
 
 export class App extends HTMLElement {
 	/** @type {HTMLParagraphElement} */ advanceParagraphElement;
