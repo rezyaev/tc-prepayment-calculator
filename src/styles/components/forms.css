@@ -1,7 +1,7 @@
-/* Classes for styling forms and form controls. */
+/* Classes for styling forms and form controls */
 
 /*
-  .form-group class is used for grouping labels with inputs.
+  .form-group class is used for grouping labels with inputs
 
   <div class="form-group">
     <label for="salary">Зарплата</label>
@@ -18,7 +18,7 @@
 }
 
 /*
-  .form-control is used for inputs and selects.
+  .form-control is used for inputs and selects
 
   <input type="number" id="salary" class="form-control" />
   <select id="month" class="form-control"></select>
@@ -28,18 +28,22 @@
 	width: 100%;
 	padding: var(--size-1);
 	border: 1px solid var(--neutral-3);
-	border-radius: var(--size-0);
+
 	font-size: var(--font-size-2);
+
+	border-radius: var(--size-0);
 }
 
 .form-control:focus {
 	border-color: var(--blue-3);
+
 	outline: 0;
 	box-shadow: 0 0 0 3px var(--blue-1);
 }
 
 .form-control:invalid {
 	border: 1px solid var(--red-4);
+
 	box-shadow: 0 0 0 2px var(--red-1);
 }
 
