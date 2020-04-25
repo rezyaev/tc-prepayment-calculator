@@ -3,5 +3,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "prettier.singleQuote": true,
     "prettier.useTabs": true,
-    "prettier.trailingComma": "none"
+    "prettier.trailingComma": "none",
+    "eslint.enable": false
 }
