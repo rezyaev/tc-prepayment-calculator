@@ -1,3 +1,3 @@
-import { testFormatMoney } from './modules/format-money.test.js';
+import { testMoneyFormattingModule } from './modules/money-formatting.test.js';
 
-testFormatMoney();
+testMoneyFormattingModule();
