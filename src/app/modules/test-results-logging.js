@@ -1,5 +1,5 @@
 /*
-    Functions for running tests
+    Functions for logging results of tests
 */
 
 // ANSI escape codes for terminal font colors
@@ -26,14 +26,14 @@ const testIDOccurences = {};
  * @example
  * // firstly, give it test module's and function's names
  * const logCurrentTestResult = logTestResult('CurrentModule', 'currentFunction');
- * 
+ *
  * // then, one or several times give it expected and actual values
  * logCurrentTestResult(1, 1)
  * // 'CurrentModule, currentFunction #1: PASSED
- * 
+ *
  * logCurrentTestResult(2, 2)
  * // 'CurrentModule, currentFunction #2: PASSED
- * 
+ *
  * logCurrentTestResult(3, 2)
  * // 'CurrentModule, currentFunction #2: FAILED (expected '3' to equal '2')
  *
