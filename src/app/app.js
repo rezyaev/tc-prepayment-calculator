@@ -4,7 +4,7 @@
 */
 
 import { calculateAdvance } from './modules/advance-calculation.js';
-import { formatMoney } from './modules/money-formatting.js';
+import { formatMoney } from './modules/money-formatting/money-formatting.js';
 import { fetchTemplate } from './modules/template-fetching.js';
 
 export class App extends HTMLElement {
