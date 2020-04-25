@@ -2,7 +2,7 @@
  * Formats money, inserting spaces every 3 digits and adding ruble sign
  *
  * @example
- * formatSalary(42566); // '42 466₽'
+ * formatMoney(42566); // '42 466₽'
  *
  * @param {number} money
  * @returns {string}
