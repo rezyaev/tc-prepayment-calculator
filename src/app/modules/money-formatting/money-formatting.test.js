@@ -1,5 +1,5 @@
 import { formatMoney } from './money-formatting.js';
-import { logTestResult } from '../testing.js';
+import { logTestResult } from '../test-results-logging.js';
 
 const moduleName = 'MoneyFormatting';
 
