@@ -5,7 +5,6 @@
 
 import { calculateAdvance } from './modules/advance-calculation.js';
 import { formatMoney } from './modules/money-formatting/money-formatting.js';
-import { fetchTemplate } from './modules/template-fetching.js';
 
 export class App extends HTMLElement {
 	/** @type {HTMLParagraphElement} */ advanceParagraphElement;
@@ -21,12 +20,16 @@ export class App extends HTMLElement {
 	constructor() {
 		super();
 
-		fetchTemplate('/src/app/app.html', this.shadow).then(() => {
+		this.fetchTemplate().then(() => {
 			this.setReferences();
 			this.setEventListeners();
 			this.selectCurrentMonth();
 			this.displaySalaryDates();
 		});
+	}
+
+	async fetchTemplate() {
+		this.shadow.innerHTML = await (await fetch('/src/app/app.html')).text();
 	}
 
 	setReferences() {
