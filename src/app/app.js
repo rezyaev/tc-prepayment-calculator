@@ -7,13 +7,13 @@ import { calculateAdvance } from './modules/advance-calculation.js';
 import { formatMoney } from './modules/money-formatting/money-formatting.js';
 
 export class App extends HTMLElement {
-	/** @type {HTMLParagraphElement} */ advanceParagraphElement;
-	/** @type {HTMLParagraphElement} */ salaryParagraphElement;
-	/** @type {HTMLSelectElement} */ monthSelectElement;
-	/** @type {HTMLInputElement} */ salaryInputElement;
-	/** @type {HTMLFormElement} */ formElement;
-	/** @type {HTMLSpanElement} */ advanceDateSpanElement;
-	/** @type {HTMLSpanElement} */ salaryDateSpanElement;
+	/** @type {HTMLParagraphElement} */ advanceParagraph;
+	/** @type {HTMLParagraphElement} */ salaryParagraph;
+	/** @type {HTMLSelectElement} */ monthSelect;
+	/** @type {HTMLInputElement} */ salaryInput;
+	/** @type {HTMLFormElement} */ form;
+	/** @type {HTMLSpanElement} */ advanceDateSpan;
+	/** @type {HTMLSpanElement} */ salaryDateSpan;
 
 	shadow = this.attachShadow({ mode: 'closed' });
 
@@ -34,21 +34,19 @@ export class App extends HTMLElement {
 
 	setReferences() {
 		// Rename without element
-		this.formElement = this.shadow.querySelector('form');
-		this.monthSelectElement = this.formElement.querySelector('#month-select');
-		this.salaryInputElement = this.formElement.querySelector('#salary-input');
-		this.advanceParagraphElement = this.shadow.querySelector('#advance');
-		this.salaryParagraphElement = this.shadow.querySelector('#salary');
-		this.advanceDateSpanElement = this.shadow.querySelector('#advance-date');
-		this.salaryDateSpanElement = this.shadow.querySelector('#salary-date');
+		this.form = this.shadow.querySelector('form');
+		this.monthSelect = this.form.querySelector('#month-select');
+		this.salaryInput = this.form.querySelector('#salary-input');
+		this.advanceParagraph = this.shadow.querySelector('#advance');
+		this.salaryParagraph = this.shadow.querySelector('#salary');
+		this.advanceDateSpan = this.shadow.querySelector('#advance-date');
+		this.salaryDateSpan = this.shadow.querySelector('#salary-date');
 	}
 
 	setEventListeners() {
-		this.formElement.addEventListener('input', () =>
-			this.displaySalaryDivision()
-		);
+		this.form.addEventListener('input', () => this.displaySalaryDivision());
 
-		this.monthSelectElement.addEventListener('change', () => {
+		this.monthSelect.addEventListener('change', () => {
 			this.displaySalaryDates();
 		});
 	}
@@ -58,7 +56,7 @@ export class App extends HTMLElement {
 	 */
 	selectCurrentMonth() {
 		const currentMonth = new Date().getMonth();
-		this.monthSelectElement.value = currentMonth.toString();
+		this.monthSelect.value = currentMonth.toString();
 	}
 
 	/**
@@ -66,12 +64,12 @@ export class App extends HTMLElement {
 	 * @returns {void}
 	 */
 	displaySalaryDivision() {
-		const monthIndex = parseInt(this.monthSelectElement.value);
-		const salary = parseInt(this.salaryInputElement.value);
+		const monthIndex = parseInt(this.monthSelect.value);
+		const salary = parseInt(this.salaryInput.value);
 
 		if (!salary || salary < 0 || salary > Number.MAX_SAFE_INTEGER) {
-			this.advanceParagraphElement.textContent = 'N/D';
-			this.salaryParagraphElement.textContent = 'N/D';
+			this.advanceParagraph.textContent = 'N/D';
+			this.salaryParagraph.textContent = 'N/D';
 
 			return;
 		}
@@ -79,8 +77,8 @@ export class App extends HTMLElement {
 		const advance = calculateAdvance(monthIndex, salary);
 		const remainingSalary = salary - advance;
 
-		this.advanceParagraphElement.textContent = formatMoney(advance);
-		this.salaryParagraphElement.textContent = formatMoney(remainingSalary);
+		this.advanceParagraph.textContent = formatMoney(advance);
+		this.salaryParagraph.textContent = formatMoney(remainingSalary);
 	}
 
 	/**
@@ -88,17 +86,17 @@ export class App extends HTMLElement {
 	 * @returns {void}
 	 */
 	displaySalaryDates() {
-		const monthIndex = parseInt(this.monthSelectElement.value);
+		const monthIndex = parseInt(this.monthSelect.value);
 
 		const advanceDate = new Date(2020, monthIndex, 20);
 		const salaryDate = new Date(2020, monthIndex + 1, 5);
 
 		const options = { day: 'numeric', month: 'long' };
-		this.advanceDateSpanElement.textContent = advanceDate.toLocaleDateString(
+		this.advanceDateSpan.textContent = advanceDate.toLocaleDateString(
 			'ru-RU',
 			options
 		);
-		this.salaryDateSpanElement.textContent = salaryDate.toLocaleDateString(
+		this.salaryDateSpan.textContent = salaryDate.toLocaleDateString(
 			'ru-RU',
 			options
 		);
