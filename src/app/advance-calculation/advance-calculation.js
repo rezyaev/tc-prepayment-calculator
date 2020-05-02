@@ -4,7 +4,7 @@ import {
 	getUTCLastDateInMonth,
 	isUTCWeekend
 } from '../modules/date.js';
-import { isHoliday } from '../modules/holiday.js';
+import { isHoliday } from './holiday.js';
 
 /**
  * @param {Date} startDate
