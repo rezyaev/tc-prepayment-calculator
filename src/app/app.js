@@ -4,7 +4,7 @@
 */
 
 import { calculateAdvance } from './modules/advance-calculation.js';
-import { formatMoney } from './modules/money-formatting/money-formatting.js';
+import { formatMoney } from './money-formatting/money-formatting.js';
 
 export class App extends HTMLElement {
 	/** @type {HTMLParagraphElement} */ advanceParagraph;
