@@ -30,6 +30,7 @@ export class App extends HTMLElement {
 	}
 
 	setReferences() {
+		// Rename without element
 		this.formElement = this.shadow.querySelector('form');
 		this.monthSelectElement = this.formElement.querySelector('#month-select');
 		this.salaryInputElement = this.formElement.querySelector('#salary-input');
