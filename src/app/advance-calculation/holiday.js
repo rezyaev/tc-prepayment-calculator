@@ -7,7 +7,7 @@ import {
 	isUTCSaturday,
 	isDateInArray,
 	moveUTCDate
-} from '../modules/date.js';
+} from '../common/date.js';
 
 const newYear = [
 	new Date(Date.UTC(2020, 0, 1)),

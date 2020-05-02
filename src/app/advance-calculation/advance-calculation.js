@@ -3,7 +3,7 @@ import {
 	getUTCDates,
 	getUTCLastDateInMonth,
 	isUTCWeekend
-} from '../modules/date.js';
+} from '../common/date.js';
 import { isHoliday } from './holiday.js';
 
 /**
