@@ -4,7 +4,6 @@
 */
 
 import { calculateAdvance } from './advance-calculation/advance-calculation.js';
-import { formatMoney } from './money-formatting/money-formatting.js';
 
 export class App extends HTMLElement {
 	constructor() {
@@ -81,8 +80,22 @@ export class App extends HTMLElement {
 		const advance = calculateAdvance(monthIndex, salary);
 		const remainingSalary = salary - advance;
 
-		this.advanceParagraph.textContent = formatMoney(advance);
-		this.salaryParagraph.textContent = formatMoney(remainingSalary);
+		const options = {
+			style: 'currency',
+			currency: 'RUB',
+			minimumFractionDigits: 0,
+			maximumFractionDigits: 0
+		};
+
+		this.advanceParagraph.textContent = advance.toLocaleString(
+			'ru-RU',
+			options
+		);
+
+		this.salaryParagraph.textContent = remainingSalary.toLocaleString(
+			'ru-RU',
+			options
+		);
 	}
 
 	/**
@@ -100,6 +113,7 @@ export class App extends HTMLElement {
 			'ru-RU',
 			options
 		);
+
 		this.salaryDateSpan.textContent = salaryDate.toLocaleDateString(
 			'ru-RU',
 			options
