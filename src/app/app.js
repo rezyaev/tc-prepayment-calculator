@@ -7,18 +7,10 @@ import { calculateAdvance } from './advance-calculation/advance-calculation.js';
 import { formatMoney } from './money-formatting/money-formatting.js';
 
 export class App extends HTMLElement {
-	/** @type {HTMLParagraphElement} */ advanceParagraph;
-	/** @type {HTMLParagraphElement} */ salaryParagraph;
-	/** @type {HTMLSelectElement} */ monthSelect;
-	/** @type {HTMLInputElement} */ salaryInput;
-	/** @type {HTMLFormElement} */ form;
-	/** @type {HTMLSpanElement} */ advanceDateSpan;
-	/** @type {HTMLSpanElement} */ salaryDateSpan;
-
-	shadow = this.attachShadow({ mode: 'closed' });
-
 	constructor() {
 		super();
+
+		this.shadow = this.attachShadow({ mode: 'closed' });
 
 		this.fetchTemplate().then(() => {
 			this.setReferences();
@@ -33,13 +25,25 @@ export class App extends HTMLElement {
 	}
 
 	setReferences() {
-		// Rename without element
+		/** @type {HTMLFormElement} */
 		this.form = this.shadow.querySelector('form');
+
+		/** @type {HTMLSelectElement} */
 		this.monthSelect = this.form.querySelector('#month-select');
+
+		/** @type {HTMLInputElement} */
 		this.salaryInput = this.form.querySelector('#salary-input');
+
+		/** @type {HTMLParagraphElement} */
 		this.advanceParagraph = this.shadow.querySelector('#advance');
+
+		/** @type {HTMLParagraphElement} */
 		this.salaryParagraph = this.shadow.querySelector('#salary');
+
+		/** @type {HTMLSpanElement} */
 		this.advanceDateSpan = this.shadow.querySelector('#advance-date');
+
+		/** @type {HTMLSpanElement} */
 		this.salaryDateSpan = this.shadow.querySelector('#salary-date');
 	}
 

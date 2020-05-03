@@ -48,8 +48,11 @@ const getWorkdaysRatioByMonth = (monthIndex) => {
  * advance = (all salary * first half days) / all days
  *
  * @example
- * 	 calculateAdvance('march', 100000); // 42857
+ * calculateAdvance('march', 100000); // 42857
  *
+ * @param {number} monthIndex
+ * @param {number} salary
+ * @returns {number}
  */
 export const calculateAdvance = (monthIndex, salary) => {
 	const [firstHalf, secondHalf] = getWorkdaysRatioByMonth(monthIndex);

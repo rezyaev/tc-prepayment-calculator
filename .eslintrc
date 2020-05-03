@@ -1,0 +1,33 @@
+{
+	"extends": ["eslint:recommended", "plugin:jsdoc/recommended"],
+	"plugins": ["immutable", "jsdoc"],
+	"env": {
+		"browser": true,
+		"es6": true
+	},
+	"parserOptions": {
+		"ecmaVersion": 2018,
+		"sourceType": "module"
+	},
+	"rules": {
+		"indent": ["error", "tab"],
+		"linebreak-style": ["error", "unix"],
+		"quotes": ["error", "single"],
+		"semi": ["error", "always"],
+		"immutable/no-let": "error",
+		"immutable/no-mutation": "error",
+		"jsdoc/require-param-description": "off",
+		"jsdoc/require-returns-description": "off",
+		"jsdoc/require-file-overview": "warn"
+	},
+	"overrides": [
+		{
+			// App.js is a web component with a role to manipulate DOM,
+			// so it cannot avoid mutation
+			"files": ["app.js"],
+			"rules": {
+				"immutable/no-mutation": "off"
+			}
+		}
+	]
+}
