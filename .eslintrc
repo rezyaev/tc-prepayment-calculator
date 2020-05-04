@@ -15,6 +15,7 @@
 		"linebreak-style": ["error", "unix"],
 		"quotes": ["error", "single"],
 		"semi": ["error", "always"],
+		"no-magic-numbers": ["error", { "ignore": [0, 1] }],
 		"immutable/no-let": "error",
 		"immutable/no-mutation": "error",
 		"jsdoc/require-param-description": "off",
@@ -35,6 +36,24 @@
 			"files": ["unit-testing.js"],
 			"rules": {
 				"no-console": "off"
+			}
+		},
+		{
+			// day-off.js and holiday.js contain a lot of date declarations
+			// that cannot be created without magic numbers
+			"files": ["day-off.js", "holiday.js", "**/*.test.js"],
+			"rules": {
+				"no-magic-numbers": "off"
+			}
+		},
+		{
+			"files": ["**/*.test.js"],
+			"env": { "node": true },
+			"rules": {
+				// they are required to create test data
+				"no-magic-numbers": "off",
+				// test files' purpose is obvious
+				"jsdoc/require-file-overview": "off"
 			}
 		}
 	]

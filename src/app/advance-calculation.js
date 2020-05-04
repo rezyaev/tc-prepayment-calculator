@@ -1,59 +1,42 @@
-import {
-	moveUTCDate,
-	getUTCDates,
-	getUTCLastDateInMonth
-} from '../libs/date.js';
+/** @file Module for calculating advance */
+
+import { getUTCDatesByMonth } from '../libs/date.js';
 import { isUTCDayOff } from './day-off.js';
 
 /**
- * @param {Date} startDate
- * @param {Date} endDate
- * @returns {number}
- */
-const getWorkdaysCountInDatesRange = (startDate, endDate) => {
-	const dates = getUTCDates(startDate, endDate);
-
-	return dates.reduce(
-		(workdaysCount, date) =>
-			isUTCDayOff(date) ? workdaysCount : workdaysCount + 1,
-		0
-	);
-};
-
-/**
- * @param {number} monthIndex
- * @returns {[number, number]}
- */
-const getWorkdaysRatioByMonth = (monthIndex) => {
-	const monthStartDate = new Date(Date.UTC(2020, monthIndex, 1));
-	const monthHalfDate = new Date(Date.UTC(2020, monthIndex, 15));
-	const monthLastDate = getUTCLastDateInMonth(monthIndex);
-
-	const firstHalfWorkdaysCount = getWorkdaysCountInDatesRange(
-		monthStartDate,
-		monthHalfDate
-	);
-
-	const secondHalfWorkdaysCount = getWorkdaysCountInDatesRange(
-		moveUTCDate(monthHalfDate, { days: 1 }),
-		monthLastDate
-	);
-
-	return [firstHalfWorkdaysCount, secondHalfWorkdaysCount];
-};
-
-/**
  * Calculate advance using this formula:
- * advance = (all salary * first half days) / all days
+ * advance = (salary * month's first half workdays count) / all workdays count
  *
  * @example
- * calculateAdvance('march', 100000); // 42857
+ * calculateAdvance(2, 100000); // 42857
  *
  * @param {number} monthIndex
  * @param {number} salary
  * @returns {number}
  */
 export const calculateAdvance = (monthIndex, salary) => {
-	const [firstHalf, secondHalf] = getWorkdaysRatioByMonth(monthIndex);
-	return (salary * firstHalf) / (firstHalf + secondHalf);
+	// Get date arrays of first and second month's halves
+	const monthSeparatorDay = 15;
+	const dates = getUTCDatesByMonth(monthIndex);
+	const firstHalfDates = dates.slice(0, monthSeparatorDay);
+	const secondHalfDates = dates.slice(monthSeparatorDay, dates.length);
+
+	// Calculate how many workdays in first and second half
+	const firstHalfWorkdaysCount = firstHalfDates.reduce(
+		(workdaysCount, date) =>
+			isUTCDayOff(date) ? workdaysCount : workdaysCount + 1,
+		0
+	);
+
+	const secondHalfWorkdaysCount = secondHalfDates.reduce(
+		(workdaysCount, date) =>
+			isUTCDayOff(date) ? workdaysCount : workdaysCount + 1,
+		0
+	);
+
+	// Calculate and return advance
+	return Math.floor(
+		(salary * firstHalfWorkdaysCount) /
+			(firstHalfWorkdaysCount + secondHalfWorkdaysCount)
+	);
 };

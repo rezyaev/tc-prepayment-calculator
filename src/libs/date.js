@@ -21,6 +21,11 @@ export const isUTCSunday = (date) => date.getUTCDay() === 0;
 export const isUTCWeekend = (date) => isUTCSaturday(date) || isUTCSunday(date);
 
 /**
+ * @returns {number}
+ */
+export const getUTCCurrentYear = () => new Date(Date.now()).getUTCFullYear();
+
+/**
  * Check if dates array has the passed date (by value, not reference)
  * @param {Date} date
  * @param {Date[]} dates
@@ -48,26 +53,6 @@ export const moveUTCDate = (date, { years = 0, months = 0, days = 0 }) =>
 	);
 
 /**
- * Get an array of dates between passed dates
- * @param {Date} startDate
- * @param {Date} endDate
- * @returns {Date[]}
- */
-export const getUTCDates = (startDate, endDate) => {
-	if (startDate.getTime() === endDate.getTime()) {
-		return [startDate];
-	}
-
-	const nextDate = moveUTCDate(startDate, { days: 1 });
-	return [startDate, ...getUTCDates(nextDate, endDate)];
-};
-
-/**
- * @returns {number}
- */
-export const getUTCCurrentYear = () => new Date(Date.now()).getUTCFullYear();
-
-/**
  * @param {number} monthIndex
  * @param {number} [year]
  * @returns {Date}
@@ -81,4 +66,32 @@ export const getUTCLastDateInMonth = (
 		Adding a 1 to month' index gives the last day of the current month.
 	*/
 	return new Date(Date.UTC(year, monthIndex + 1, 0));
+};
+
+/**
+ * Get an array of dates between passed dates
+ * @param {Date} startDate
+ * @param {Date} endDate
+ * @returns {Date[]}
+ */
+export const getUTCDatesByRange = (startDate, endDate) => {
+	if (startDate.getTime() === endDate.getTime()) {
+		return [startDate];
+	}
+
+	const nextDate = moveUTCDate(startDate, { days: 1 });
+	return [startDate, ...getUTCDatesByRange(nextDate, endDate)];
+};
+
+/**
+ * Get an array of dates for passed month
+ * @param {number} monthIndex
+ * @returns {Date[]}
+ */
+export const getUTCDatesByMonth = (monthIndex) => {
+	const currentYear = getUTCCurrentYear();
+	const startDate = new Date(Date.UTC(currentYear, monthIndex, 1));
+	const endDate = getUTCLastDateInMonth(monthIndex, currentYear);
+
+	return getUTCDatesByRange(startDate, endDate);
 };

@@ -1,6 +1,4 @@
-/*
-	Functions for working with official holidays in Russian Federation
-*/
+/** @file Module for working with day offs in Russian Federation */
 
 import {
 	isUTCWeekend,
@@ -8,39 +6,7 @@ import {
 	isDateInArray,
 	moveUTCDate
 } from '../libs/date.js';
-
-const newYear = [
-	new Date(Date.UTC(2020, 0, 1)),
-	new Date(Date.UTC(2020, 0, 2)),
-	new Date(Date.UTC(2020, 0, 3)),
-	new Date(Date.UTC(2020, 0, 4)),
-	new Date(Date.UTC(2020, 0, 5)),
-	new Date(Date.UTC(2020, 0, 6)),
-	new Date(Date.UTC(2020, 0, 8))
-];
-
-const christmas = new Date(Date.UTC(2020, 0, 7));
-const fatherlandDefendersDay = new Date(Date.UTC(2020, 1, 23));
-const internationalWomensDay = new Date(Date.UTC(2020, 2, 8));
-const laborDay = new Date(Date.UTC(2020, 4, 1));
-const victoryDay = new Date(Date.UTC(2020, 4, 9));
-const russiaDay = new Date(Date.UTC(2020, 5, 12));
-const nationalUnityDay = new Date(Date.UTC(2020, 10, 4));
-
-/**
- * Array of official holidays in Russian Federation
- * @type {Date[]}
- */
-const holidays = [
-	...newYear,
-	christmas,
-	fatherlandDefendersDay,
-	internationalWomensDay,
-	laborDay,
-	victoryDay,
-	russiaDay,
-	nationalUnityDay
-];
+import { getHolidays } from './holiday.js';
 
 /**
  * Exceptions are defined by Russian Federation government's decree:
@@ -53,6 +19,7 @@ const transferHolidayExceptions = new Map([
 
 /**
  * Transfer holiday's day off if it is on a weekend or another holiday's date
+ *
  * @param {Date} holiday
  * @param {Date[]} holidays
  * @returns {Date}
@@ -80,21 +47,43 @@ const transferHoliday = (holiday, holidays) => {
 };
 
 /**
- * If any holiday is on weekend, day off is moved to the next workday
- * @type {Date[]}
+ * Get holidays' day offs. If any holiday is on weekend, day off is moved to the next workday
+ *
+ * @returns {Date[]}
  */
-const holidayDayOffs = holidays
-	.reduce(
-		(holidays, holiday) => [...holidays, transferHoliday(holiday, holidays)],
-		[]
-	)
-	.sort((a, b) => a - b);
+const getHolidayDayOffs = () => {
+	const holidays = getHolidays();
+
+	return holidays
+		.reduce(
+			(holidays, holiday) => [...holidays, transferHoliday(holiday, holidays)],
+			[]
+		)
+		.sort((a, b) => a - b);
+};
 
 /**
  * Check if UTC date is a day off (because of weekend or holiday)
+ *
+ * @example <caption>Returns true for weekends</caption>
+ * const saturday = new Date(Date.UTC(2020, 4, 2));
+ * isUTCDayOff(saturday); // true
+ *
+ * @example <caption>Returns true for official holidays in Russian Federation</caption>
+ * const internationalWomenDay = new Date(Date.UTC(2020, 2, 8));
+ * isUTCDayOff(internationalWomenDay); // true
+ *
+ * @example <caption>Returns true for transferred holidays' day offs</caption>
+ * // 4th May is transferred due to official decree
+ * const transferredDayOff = new Date(Date.UTC(2020, 4, 4));
+ * isUTCDayOff(transferredDayOff); // true
+ *
+ * @example <caption>Returns false for any other date</caption>
+ * const justMonday = new Date(Date.UTC(2020, 4, 18));
+ * isUTCDayOff(justMonday); // false
  *
  * @param {Date} date
  * @returns {boolean}
  */
 export const isUTCDayOff = (date) =>
-	isUTCWeekend(date) || isDateInArray(date, holidayDayOffs);
+	isUTCWeekend(date) || isDateInArray(date, getHolidayDayOffs());
