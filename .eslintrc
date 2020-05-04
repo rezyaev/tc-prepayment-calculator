@@ -22,9 +22,9 @@
 	},
 	"overrides": [
 		{
-			// App.js is a web component with a role to manipulate DOM,
+			// UI consists of web components with a role to manipulate DOM,
 			// so it cannot avoid mutation
-			"files": ["app.js"],
+			"files": ["*/ui/*.js"],
 			"rules": {
 				"immutable/no-mutation": "off"
 			}
