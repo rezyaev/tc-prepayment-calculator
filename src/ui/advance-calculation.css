@@ -1,0 +1,52 @@
+:host {
+	display: grid;
+	grid: 1fr 4fr 4fr / 1fr;
+	justify-items: center;
+	align-items: center;
+
+	height: 100%;
+	padding: var(--size-1);
+
+	background-color: var(--neutral-0);
+}
+
+h1 {
+	align-self: start;
+	
+	font-size: var(--font-size-5);
+	
+	color: var(--neutral-9);
+}
+
+form {
+	width: 100%;
+	max-width: var(--size-12);
+	padding: var(--size-1);
+}
+
+.salary-division {
+	display: flex;
+	flex-direction: column;
+}
+
+.salary-division div:first-child {
+	margin-bottom: var(--size-1);
+}
+
+.payment-type {
+	font-size: var(--font-size-5);
+	text-align: center;
+}
+
+.payment-date {
+	color: var(--neutral-4);
+	
+	font-size: var(--font-size-2);
+}
+
+.payment-value {
+	font-size: var(--font-size-7);
+	text-align: center;
+	
+	color: var(--primary-5);
+}
