@@ -1,10 +1,9 @@
 import {
 	moveUTCDate,
 	getUTCDates,
-	getUTCLastDateInMonth,
-	isUTCWeekend
+	getUTCLastDateInMonth
 } from '../libs/date.js';
-import { isHoliday } from './holiday.js';
+import { isUTCDayOff } from './day-off.js';
 
 /**
  * @param {Date} startDate
@@ -16,7 +15,7 @@ const getWorkdaysCountInDatesRange = (startDate, endDate) => {
 
 	return dates.reduce(
 		(workdaysCount, date) =>
-			isUTCWeekend(date) || isHoliday(date) ? workdaysCount : workdaysCount + 1,
+			isUTCDayOff(date) ? workdaysCount : workdaysCount + 1,
 		0
 	);
 };

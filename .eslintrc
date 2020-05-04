@@ -10,6 +10,7 @@
 		"sourceType": "module"
 	},
 	"rules": {
+		"complexity": ["error", 10],
 		"indent": ["error", "tab"],
 		"linebreak-style": ["error", "unix"],
 		"quotes": ["error", "single"],
@@ -27,6 +28,13 @@
 			"files": ["*/ui/*.js"],
 			"rules": {
 				"immutable/no-mutation": "off"
+			}
+		},
+		{
+			// unit-testing.js logs results of tests to node.js console
+			"files": ["unit-testing.js"],
+			"rules": {
+				"no-console": "off"
 			}
 		}
 	]
