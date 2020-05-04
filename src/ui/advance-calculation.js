@@ -3,7 +3,7 @@
 	All other components must be rendered inside it.
 */
 
-import { calculateAdvance } from '../app/advance-calculation/advance-calculation.js';
+import { calculateAdvance } from '../app/advance-calculation.js';
 
 export class AdvanceCalculation extends HTMLElement {
 	constructor() {
