@@ -1,32 +1,97 @@
-/*
-	Functions for working with javascript date object
-*/
+/** @file Module for working with javascript date object */
 
 /**
+ * Check if UTC date is Saturday
+ *
+ * @example
+ * const saturday = new Date(Date.UTC(2020, 4, 9));
+ * isUTCSaturday(saturday); // true
+ *
+ * @example
+ * const monday = new Date(Date.UTC(2020, 4, 4));
+ * isUTCSaturday(monday); // false
+ *
  * @param {Date} date
  * @returns {boolean}
  */
-export const isUTCSaturday = (date) => date.getUTCDay() === 6;
+export const isUTCSaturday = (date) => {
+	const saturdayIndex = 6;
+	return date.getUTCDay() === saturdayIndex;
+};
 
 /**
+ * Check if UTC date is Sunday
+ *
+ * @example
+ * const sunday = new Date(Date.UTC(2020, 4, 10));
+ * isUTCSaturday(sunday); // true
+ *
+ * @example
+ * const monday = new Date(Date.UTC(2020, 4, 4));
+ * isUTCSaturday(monday); // false
+ *
  * @param {Date} date
  * @returns {boolean}
  */
-export const isUTCSunday = (date) => date.getUTCDay() === 0;
+export const isUTCSunday = (date) => {
+	const sundayIndex = 0;
+	return date.getUTCDay() === sundayIndex;
+};
 
 /**
+ * Check if UTC date is Saturday or Sunday
+ *
+ * @example
+ * const saturday = new Date(Date.UTC(2020, 4, 9));
+ * isUTCWeekend(saturday); // true
+ *
+ * @example
+ * const sunday = new Date(Date.UTC(2020, 4, 10));
+ * isUTCWeekend(sunday); // true
+ *
+ * @example
+ * const monday = new Date(Date.UTC(2020, 4, 4));
+ * isUTCWeekend(monday); // false
+ *
  * @param {Date} date
  * @returns {boolean}
  */
 export const isUTCWeekend = (date) => isUTCSaturday(date) || isUTCSunday(date);
 
 /**
+ * Get current UTC year
+ *
+ * @example
+ * // Now is "Tue, 05 May 2020 13:11:57 GMT"
+ * getUTCCurrentYear(); // 2020
+ *
  * @returns {number}
  */
 export const getUTCCurrentYear = () => new Date(Date.now()).getUTCFullYear();
 
 /**
  * Check if dates array has the passed date (by value, not reference)
+ *
+ * @example
+ * const date = new Date(Date.UTC(2020, 8, 16));
+ * const sameDate = new Date(Date.UTC(2020, 8, 16));
+ * const dates = [
+ *   new Date(2020, 1, 4),
+ *   sameDate,
+ *   new Date(Date.UTC(2020, 4, 25))
+ * ];
+ *
+ * isDateInArray(date, dates); // true
+ *
+ * @example
+ * const date = new Date(Date.UTC(2020, 8, 16));
+ * const dates = [
+ *   new Date(2020, 1, 4),
+ *   new Date(Date.UTC(2020, 4, 25))
+ * ];
+ *
+ * isDateInArray(date, dates); // false
+ *
  * @param {Date} date
  * @param {Date[]} dates
  * @returns {boolean}

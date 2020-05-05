@@ -39,3 +39,16 @@ export const getHolidays = () => {
 		nationalUnityDay
 	];
 };
+
+/**
+ * Get exceptions that are defined by Russian Federation government's decree:
+ * http://static.government.ru/media/files/Dr1dQtbUqLa7QBUg1pbBasIKwwR7kJOG.pdf
+ *
+ * @returns {Map<number, Date>} - Map, where keys are holiday's Unix times
+ * and values are holidays' transfer Dates.
+ */
+export const getHolidayTransferExceptions = () =>
+	new Map([
+		[new Date(Date.UTC(2020, 0, 4)).getTime(), new Date(Date.UTC(2020, 4, 4))],
+		[new Date(Date.UTC(2020, 0, 5)).getTime(), new Date(Date.UTC(2020, 4, 5))]
+	]);

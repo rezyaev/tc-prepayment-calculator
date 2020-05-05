@@ -6,16 +6,7 @@ import {
 	isDateInArray,
 	moveUTCDate
 } from '../libs/date.js';
-import { getHolidays } from './holiday.js';
-
-/**
- * Exceptions are defined by Russian Federation government's decree:
- * http://static.government.ru/media/files/Dr1dQtbUqLa7QBUg1pbBasIKwwR7kJOG.pdf
- */
-const transferHolidayExceptions = new Map([
-	[new Date(Date.UTC(2020, 0, 4)).getTime(), new Date(Date.UTC(2020, 4, 4))],
-	[new Date(Date.UTC(2020, 0, 5)).getTime(), new Date(Date.UTC(2020, 4, 5))]
-]);
+import { getHolidays, getHolidayTransferExceptions } from './holiday.js';
 
 /**
  * Transfer holiday's day off if it is on a weekend or another holiday's date
@@ -25,29 +16,32 @@ const transferHolidayExceptions = new Map([
  * @returns {Date}
  */
 const transferHoliday = (holiday, holidays) => {
-	// if holiday is an exception, transfer it as defined in a decree
-	if (transferHolidayExceptions.has(holiday.getTime())) {
-		return transferHolidayExceptions.get(holiday.getTime());
+	const exceptions = getHolidayTransferExceptions();
+
+	// if holiday is an exception, transfer it as defined in an exception
+	if (exceptions.has(holiday.getTime())) {
+		return exceptions.get(holiday.getTime());
 	}
 
 	// check if a holiday is not on the weekend or another holiday's date
 	if (!isUTCWeekend(holiday) && !isDateInArray(holiday, holidays))
 		return holiday;
 
-	// if Saturday move by 2 days till Monday, otherwise by 1
+	// if Saturday transfer by 2 days till Monday, otherwise by 1
 	const daysCountToMoveBy = isUTCSaturday(holiday) ? 2 : 1;
 
 	const movedHoliday = moveUTCDate(holiday, { days: daysCountToMoveBy });
 
 	/* 
 		call recursively, because holiday can be on another holiday date after
-		moving, so we need to move more
+		transfer, so we need to check again
 	*/
 	return transferHoliday(movedHoliday, holidays);
 };
 
 /**
- * Get holidays' day offs. If any holiday is on weekend, day off is moved to the next workday
+ * Get holidays' day offs. If any holiday is on weekend, day off is transferred
+ * to the next workday.
  *
  * @returns {Date[]}
  */
