@@ -5,11 +5,11 @@ import {
 	isUTCSaturday,
 	isDateInArray,
 	moveUTCDate
-} from '../libs/date.js';
+} from '../libs/date/index.js';
 import { getHolidays, getHolidayTransferExceptions } from './holiday.js';
 
 /**
- * Transfer holiday's day off if it is on a weekend or another holiday's date
+ * Transfers holiday's day off if it is on a weekend or another holiday's date
  *
  * @param {Date} holiday
  * @param {Date[]} holidays
@@ -40,7 +40,7 @@ const transferHoliday = (holiday, holidays) => {
 };
 
 /**
- * Get holidays' day offs. If any holiday is on weekend, day off is transferred
+ * Gets holidays' day offs. If any holiday is on weekend, day off is transferred
  * to the next workday.
  *
  * @returns {Date[]}
@@ -57,7 +57,7 @@ const getHolidayDayOffs = () => {
 };
 
 /**
- * Check if UTC date is a day off (because of weekend or holiday)
+ * Checks if UTC date is a day off (because of weekend or holiday)
  *
  * @example <caption>Returns true for weekends</caption>
  * const saturday = new Date(Date.UTC(2020, 4, 2));

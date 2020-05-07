@@ -1,9 +1,9 @@
 /** @file Module for working with Russian Federation holidays */
 
-import { getUTCCurrentYear } from '../libs/date.js';
+import { getUTCCurrentYear } from '../libs/date/index.js';
 
 /**
- * Get official holidays in Russian Federation
+ * Gets official holidays in Russian Federation
  *
  * @returns {Date[]}
  */
@@ -41,7 +41,7 @@ export const getHolidays = () => {
 };
 
 /**
- * Get exceptions that are defined by Russian Federation government's decree:
+ * Gets exceptions that are defined by Russian Federation government's decree:
  * http://static.government.ru/media/files/Dr1dQtbUqLa7QBUg1pbBasIKwwR7kJOG.pdf
  *
  * @returns {Map<number, Date>} - Map, where keys are holiday's Unix times
