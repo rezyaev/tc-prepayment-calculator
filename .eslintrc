@@ -16,6 +16,7 @@
 		"quotes": ["error", "single"],
 		"semi": ["error", "always"],
 		"no-magic-numbers": ["error", { "ignore": [0, 1] }],
+		"no-console": "error",
 		"immutable/no-let": "error",
 		"immutable/no-mutation": "error",
 		"jsdoc/require-param-description": "off",

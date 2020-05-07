@@ -3,7 +3,8 @@ import {
 	isUTCSaturday,
 	isUTCSunday,
 	isUTCWeekend,
-	isDateInArray
+	isDateInArray,
+	moveUTCDate
 } from './date.js';
 
 const date = new Date(Date.UTC(2020, 8, 16));
@@ -57,5 +58,14 @@ test(isDateInArray, [
 	{
 		input: [date, [new Date(2020, 1, 4), new Date(Date.UTC(2020, 4, 25))]],
 		output: false
+	}
+]);
+
+test(moveUTCDate, [
+	{
+		input: [date, { days: 2 }],
+		output: new Date(
+			Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 2)
+		)
 	}
 ]);

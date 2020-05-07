@@ -2,6 +2,8 @@
     Functions for unit testing pure functions
 */
 
+import { areEqual } from './equality.js';
+
 // ANSI escape codes for terminal font colors
 const greenCode = '\x1b[32m';
 const redCode = '\x1b[31m';
@@ -29,7 +31,7 @@ export const test = (func, tests, { moduleName } = {}) => {
 		const passMessage = `${testID} #${index}: PASSED`;
 		const failMessage = `${testID} #${index}: FAILED (expected '${actual}' to equal '${expected}')`;
 
-		expected === actual
+		areEqual(expected, actual)
 			? console.log(greenCode, passMessage, resetCode)
 			: console.log(redCode, failMessage, resetCode);
 	});
