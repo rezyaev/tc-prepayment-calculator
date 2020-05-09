@@ -14,6 +14,28 @@ const resetCode = '\x1b[0m';
  */
 
 /**
+ * Tests passed function with given test data and outputs result to console
+ *
+ * @example
+ * const sum = (firstNumber, secondNumber) => firstNumber + secondNumber;
+ *
+ * test(sum, [
+ *   {
+ *     // If function takes several arguments, pass an array as input.
+ *     // Otherwise, just pass a single value.
+ *     input: [1, 3],
+ *     output: 4
+ *   },
+ *   {
+ *     input: [2, 2],
+ *     output: 5
+ *   }
+ * ], { moduleName: 'Math' });
+ *
+ * // Console output:
+ * // Math, sum #1: PASSED
+ * // Math, sum #2: FAILED (expected '4' to equal '5')
+ *
  * @param {(...args: any[]) => any} func
  * @param {TestData[]} tests
  * @param {object} [metadata]
