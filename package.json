@@ -1,18 +1,19 @@
 {
-  "name": "advance-calculator",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rezyaev/tc-prepayment-calculator.git"
-  },
-  "author": "Danil Rezyaev",
-  "license": "ISC",
-  "devDependencies": {
-    "eslint": "^7.0.0",
-    "eslint-plugin-immutable": "^1.0.0",
-    "eslint-plugin-jsdoc": "^25.0.1",
-    "prettier": "^2.0.5"
-  }
+	"name": "advance-calculator",
+	"scripts": {
+		"test": "node --experimental-modules ./scripts/test.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/rezyaev/tc-prepayment-calculator.git"
+	},
+	"type": "module",
+	"author": "Danil Rezyaev",
+	"license": "ISC",
+	"devDependencies": {
+		"eslint": "^7.0.0",
+		"eslint-plugin-immutable": "^1.0.0",
+		"eslint-plugin-jsdoc": "^25.0.1",
+		"prettier": "^2.0.5"
+	}
 }
