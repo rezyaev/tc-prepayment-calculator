@@ -1,6 +1,4 @@
-/*
-    Functions for unit testing pure functions
-*/
+/** @file Module for unit testing pure functions */
 
 import { areEqual } from './equality.js';
 
@@ -11,8 +9,8 @@ const resetCode = '\x1b[0m';
 
 /**
  * @typedef {object} TestData
- * @property {any} input
- * @property {any} output
+ * @property {any} input - arguments for tested function
+ * @property {any} output - expected result
  */
 
 /**
