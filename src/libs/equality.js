@@ -25,8 +25,9 @@ const areArraysEqual = (firstArray, secondArray) => {
 	if (secondArrayElement === undefined) return false;
 
 	// get the second array without the found element
+	const secondArrayElementIndex = secondArray.indexOf(secondArrayElement);
 	const remainingSecondArray = secondArray.filter(
-		(element, index) => index !== secondArray.indexOf(secondArrayElement)
+		(element, index) => index !== secondArrayElementIndex
 	);
 
 	// continue comparing the rest of the arrays

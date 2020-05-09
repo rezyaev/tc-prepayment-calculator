@@ -1,14 +1,12 @@
 /** @file Module for working with Russian Federation holidays */
 
-import { getUTCCurrentYear } from '../libs/date/index.js';
-
 /**
  * Gets official holidays in Russian Federation
  *
  * @returns {Date[]}
  */
 export const getHolidays = () => {
-	const currentYear = getUTCCurrentYear();
+	const currentYear = new Date().getUTCFullYear();
 
 	const newYear = [
 		new Date(Date.UTC(currentYear, 0, 1)),

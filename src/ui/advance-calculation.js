@@ -1,7 +1,4 @@
-/*
-	The main component in the app.
-	All other components must be rendered inside it.
-*/
+/** @file Component for advance calculation UI */
 
 import { calculateAdvance } from '../app/advance-calculation.js';
 
@@ -54,22 +51,21 @@ export class AdvanceCalculation extends HTMLElement {
 		});
 	}
 
-	/**
-	 * Finds current month and changes the value of select to it
-	 */
 	selectCurrentMonth() {
 		const currentMonth = new Date().getMonth();
 		this.monthSelect.value = currentMonth.toString();
 	}
 
 	/**
-	 * Calculates salary division and displays it in HTML
+	 * Displays salary/advance division
+	 *
 	 * @returns {void}
 	 */
 	displaySalaryDivision() {
 		const monthIndex = parseInt(this.monthSelect.value);
 		const salary = parseInt(this.salaryInput.value);
 
+		// validate salary
 		if (!salary || salary < 0 || salary > Number.MAX_SAFE_INTEGER) {
 			this.advanceParagraph.textContent = 'N/D';
 			this.salaryParagraph.textContent = 'N/D';
@@ -80,7 +76,7 @@ export class AdvanceCalculation extends HTMLElement {
 		const advance = calculateAdvance(monthIndex, salary);
 		const remainingSalary = salary - advance;
 
-		const options = {
+		const formatOptions = {
 			style: 'currency',
 			currency: 'RUB',
 			minimumFractionDigits: 0,
@@ -89,34 +85,39 @@ export class AdvanceCalculation extends HTMLElement {
 
 		this.advanceParagraph.textContent = advance.toLocaleString(
 			'ru-RU',
-			options
+			formatOptions
 		);
 
 		this.salaryParagraph.textContent = remainingSalary.toLocaleString(
 			'ru-RU',
-			options
+			formatOptions
 		);
 	}
 
 	/**
-	 * Finds in what dates salary will be paid and displays it in HTML
+	 * Displays in what dates salary will be paid
+	 *
 	 * @returns {void}
 	 */
 	displaySalaryDates() {
+		const currentYear = new Date().getUTCFullYear();
 		const monthIndex = parseInt(this.monthSelect.value);
+		const advanceDateNumber = 20;
+		const salaryDateNumber = 5;
 
-		const advanceDate = new Date(2020, monthIndex, 20);
-		const salaryDate = new Date(2020, monthIndex + 1, 5);
+		const advanceDate = new Date(currentYear, monthIndex, advanceDateNumber);
+		const salaryDate = new Date(currentYear, monthIndex + 1, salaryDateNumber);
 
-		const options = { day: 'numeric', month: 'long' };
+		const formatOptions = { day: 'numeric', month: 'long' };
+
 		this.advanceDateSpan.textContent = advanceDate.toLocaleDateString(
 			'ru-RU',
-			options
+			formatOptions
 		);
 
 		this.salaryDateSpan.textContent = salaryDate.toLocaleDateString(
 			'ru-RU',
-			options
+			formatOptions
 		);
 	}
 }

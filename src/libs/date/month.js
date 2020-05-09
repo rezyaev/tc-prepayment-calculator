@@ -1,6 +1,5 @@
 /** @file Module for working with months' dates */
 
-import { getUTCCurrentYear } from './current-date.js';
 import { getUTCDatesByRange } from './dates-array.js';
 
 /**
@@ -18,7 +17,7 @@ import { getUTCDatesByRange } from './dates-array.js';
  */
 export const getUTCLastDateInMonth = (
 	monthIndex,
-	year = getUTCCurrentYear()
+	year = new Date().getUTCFullYear()
 ) => {
 	/*
 		Passing 0 as date to new Date() returns the last day of the previous month.
@@ -40,7 +39,7 @@ export const getUTCLastDateInMonth = (
  * @returns {Date[]}
  */
 export const getUTCDatesByMonth = (monthIndex) => {
-	const currentYear = getUTCCurrentYear();
+	const currentYear = new Date().getUTCFullYear();
 	const startDate = new Date(Date.UTC(currentYear, monthIndex, 1));
 	const endDate = getUTCLastDateInMonth(monthIndex, currentYear);
 

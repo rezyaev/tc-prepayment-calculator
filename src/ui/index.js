@@ -1,7 +1,7 @@
-/*
-    An entry point for JS code.
-    All custom elements should be imported and defined here.
-*/
+/**
+ * @file An entry point for UI web components.
+ * All custom elements should be imported and defined here.
+ */
 
 import { AdvanceCalculation } from './advance-calculation.js';
 
