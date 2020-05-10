@@ -17,7 +17,9 @@ export class AdvanceCalculation extends HTMLElement {
 	}
 
 	async fetchTemplate() {
-		this.shadow.innerHTML = await (await fetch('/src/app/app.html')).text();
+		this.shadow.innerHTML = await (
+			await fetch('/src/ui/advance-calculation.html')
+		).text();
 	}
 
 	setReferences() {
