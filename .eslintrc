@@ -9,9 +9,12 @@
 		"ecmaVersion": 2020,
 		"sourceType": "module"
 	},
+	"globals": {
+		"TemplateStringsArray": true
+	},
 	"rules": {
 		"complexity": ["error", 10],
-		"indent": ["error", "tab"],
+		"indent": "off",
 		"linebreak-style": ["error", "unix"],
 		"quotes": ["error", "single"],
 		"semi": ["error", "always"],
@@ -21,13 +24,27 @@
 		"immutable/no-mutation": "error",
 		"jsdoc/require-param-description": "off",
 		"jsdoc/require-returns-description": "off",
+		"jsdoc/require-property-description": "off",
 		"jsdoc/require-file-overview": "warn"
+	},
+	"settings": {
+		"jsdoc": {
+			"mode": "typescript"
+		}
 	},
 	"overrides": [
 		{
 			// UI consists of web components with a role to manipulate DOM,
 			// so it cannot avoid mutation
 			"files": ["*/ui/*.js"],
+			"rules": {
+				"immutable/no-mutation": "off"
+			}
+		},
+		{
+			// framework for building fp-style web apps needs mutation
+			// for writing to the DOM
+			"files": ["framework.js"],
 			"rules": {
 				"immutable/no-mutation": "off"
 			}
