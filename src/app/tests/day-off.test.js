@@ -9,18 +9,18 @@ const mondayWorkday = new Date(Date.UTC(2020, 4, 18));
 test(isUTCDayOff, [
 	{
 		input: saturday,
-		output: true
+		output: true,
 	},
 	{
 		input: internationalWomenDay,
-		output: true
+		output: true,
 	},
 	{
 		input: transferredHolidayDayOff,
-		output: true
+		output: true,
 	},
 	{
 		input: mondayWorkday,
-		output: false
-	}
+		output: false,
+	},
 ]);

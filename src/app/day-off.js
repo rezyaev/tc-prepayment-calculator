@@ -4,7 +4,7 @@ import {
 	isUTCWeekend,
 	isUTCSaturday,
 	isDateInArray,
-	moveUTCDate
+	moveUTCDate,
 } from '../libs/date/index.js';
 import { getHolidays, getHolidayTransferExceptions } from './holiday.js';
 

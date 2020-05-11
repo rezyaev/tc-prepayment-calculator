@@ -8,14 +8,14 @@ const octoberIndex = 9;
 test(calculateAdvance, [
 	{
 		input: [augustIndex, 50000],
-		output: 23809
+		output: 23809,
 	},
 	{
 		input: [mayIndex, 142000],
-		output: 58470
+		output: 58470,
 	},
 	{
 		input: [octoberIndex, 180000],
-		output: 90000
-	}
+		output: 90000,
+	},
 ]);

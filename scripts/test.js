@@ -22,7 +22,7 @@ const isTestFile = (fileName) => {
  */
 const getTestFilesPaths = async (directoryPath) => {
 	const entries = await fs.readdir(directoryPath, {
-		withFileTypes: true
+		withFileTypes: true,
 	});
 
 	// Firstly, filter by test files and directories.

@@ -15,7 +15,7 @@ export const getHolidays = () => {
 		new Date(Date.UTC(currentYear, 0, 4)),
 		new Date(Date.UTC(currentYear, 0, 5)),
 		new Date(Date.UTC(currentYear, 0, 6)),
-		new Date(Date.UTC(currentYear, 0, 8))
+		new Date(Date.UTC(currentYear, 0, 8)),
 	];
 
 	const christmas = new Date(Date.UTC(currentYear, 0, 7));
@@ -34,7 +34,7 @@ export const getHolidays = () => {
 		laborDay,
 		victoryDay,
 		russiaDay,
-		nationalUnityDay
+		nationalUnityDay,
 	];
 };
 
@@ -48,5 +48,5 @@ export const getHolidays = () => {
 export const getHolidayTransferExceptions = () =>
 	new Map([
 		[new Date(Date.UTC(2020, 0, 4)).getTime(), new Date(Date.UTC(2020, 4, 4))],
-		[new Date(Date.UTC(2020, 0, 5)).getTime(), new Date(Date.UTC(2020, 4, 5))]
+		[new Date(Date.UTC(2020, 0, 5)).getTime(), new Date(Date.UTC(2020, 4, 5))],
 	]);

@@ -5,7 +5,7 @@ const startDate = new Date(Date.UTC(2020, 4, 7));
 const endDate = new Date(Date.UTC(2020, 4, 10));
 const middleDates = [
 	new Date(Date.UTC(2020, 4, 8)),
-	new Date(Date.UTC(2020, 4, 9))
+	new Date(Date.UTC(2020, 4, 9)),
 ];
 
 const dates = [...middleDates];
@@ -15,17 +15,17 @@ const sameDate = new Date(date.getTime());
 test(getUTCDatesByRange, [
 	{
 		input: [startDate, endDate],
-		output: [startDate, ...middleDates, endDate]
-	}
+		output: [startDate, ...middleDates, endDate],
+	},
 ]);
 
 test(isDateInArray, [
 	{
 		input: [date, [...dates, sameDate]],
-		output: true
+		output: true,
 	},
 	{
 		input: [date, dates],
-		output: false
-	}
+		output: false,
+	},
 ]);

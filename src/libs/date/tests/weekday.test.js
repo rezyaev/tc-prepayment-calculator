@@ -8,36 +8,36 @@ const sunday = new Date(Date.UTC(2020, 4, 10));
 test(isUTCSaturday, [
 	{
 		input: saturday,
-		output: true
+		output: true,
 	},
 	{
 		input: monday,
-		output: false
-	}
+		output: false,
+	},
 ]);
 
 test(isUTCSunday, [
 	{
 		input: sunday,
-		output: true
+		output: true,
 	},
 	{
 		input: monday,
-		output: false
-	}
+		output: false,
+	},
 ]);
 
 test(isUTCWeekend, [
 	{
 		input: saturday,
-		output: true
+		output: true,
 	},
 	{
 		input: sunday,
-		output: true
+		output: true,
 	},
 	{
 		input: monday,
-		output: false
-	}
+		output: false,
+	},
 ]);

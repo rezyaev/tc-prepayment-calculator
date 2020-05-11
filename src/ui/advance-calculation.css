@@ -12,9 +12,9 @@
 
 h1 {
 	align-self: start;
-	
+
 	font-size: var(--font-size-5);
-	
+
 	color: var(--neutral-9);
 }
 
@@ -40,13 +40,13 @@ form {
 
 .payment-date {
 	color: var(--neutral-4);
-	
+
 	font-size: var(--font-size-2);
 }
 
 .payment-value {
 	font-size: var(--font-size-7);
 	text-align: center;
-	
+
 	color: var(--primary-5);
 }

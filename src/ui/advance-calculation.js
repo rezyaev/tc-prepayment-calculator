@@ -82,7 +82,7 @@ export class AdvanceCalculation extends HTMLElement {
 			style: 'currency',
 			currency: 'RUB',
 			minimumFractionDigits: 0,
-			maximumFractionDigits: 0
+			maximumFractionDigits: 0,
 		};
 
 		this.advanceParagraph.textContent = advance.toLocaleString(

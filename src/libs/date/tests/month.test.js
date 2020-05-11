@@ -34,19 +34,19 @@ const aprilDates = [
 	new Date(Date.UTC(2020, aprilIndex, 27)),
 	new Date(Date.UTC(2020, aprilIndex, 28)),
 	new Date(Date.UTC(2020, aprilIndex, 29)),
-	new Date(Date.UTC(2020, aprilIndex, 30))
+	new Date(Date.UTC(2020, aprilIndex, 30)),
 ];
 
 test(getUTCLastDateInMonth, [
 	{
 		input: [aprilIndex, 2020],
-		output: lastDateInApril
-	}
+		output: lastDateInApril,
+	},
 ]);
 
 test(getUTCDatesByMonth, [
 	{
 		input: aprilIndex,
-		output: aprilDates
-	}
+		output: aprilDates,
+	},
 ]);

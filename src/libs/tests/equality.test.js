@@ -12,9 +12,9 @@ const object = {
 	a: 1,
 	bool: true,
 	nested: {
-		b: 1
+		b: 1,
 	},
-	array: [4, 5]
+	array: [4, 5],
 };
 
 const sameObject = {
@@ -22,57 +22,57 @@ const sameObject = {
 	a: 1,
 	array: [4, 5],
 	nested: {
-		b: 1
-	}
+		b: 1,
+	},
 };
 
 test(areEqual, [
 	{
 		input: [13, 13],
-		output: true
+		output: true,
 	},
 	{
 		input: [13, 25],
-		output: false
+		output: false,
 	},
 	{
 		input: ['string', 'string'],
-		output: true
+		output: true,
 	},
 	{
 		input: ['string', 'not string'],
-		output: false
+		output: false,
 	},
 	{
 		input: [true, true],
-		output: true
+		output: true,
 	},
 	{
 		input: [true, false],
-		output: false
+		output: false,
 	},
 	{
 		input: [firstDate, firstDateClone],
-		output: true
+		output: true,
 	},
 	{
 		input: [firstDate, secondDate],
-		output: false
+		output: false,
 	},
 	{
 		input: [array, sameArray],
-		output: true
+		output: true,
 	},
 	{
 		input: [array, [...sameArray, 4, 5]],
-		output: false
+		output: false,
 	},
 	{
 		input: [object, sameObject],
-		output: true
+		output: true,
 	},
 	{
 		input: [object, { ...sameObject, c: 15 }],
-		output: false
-	}
+		output: false,
+	},
 ]);
