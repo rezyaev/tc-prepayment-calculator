@@ -13,19 +13,21 @@
 		"TemplateStringsArray": true
 	},
 	"rules": {
-		"complexity": ["error", 10],
+		"complexity": ["error", 15],
 		"indent": "off",
 		"linebreak-style": ["error", "unix"],
 		"quotes": ["error", "single"],
 		"semi": ["error", "always"],
-		"no-magic-numbers": ["error", { "ignore": [0, 1] }],
+		"no-magic-numbers": ["error", { "ignore": [0, 1, -1] }],
 		"no-console": "error",
+		"no-case-declarations": "off",
 		"immutable/no-let": "error",
 		"immutable/no-mutation": "error",
 		"jsdoc/require-param-description": "off",
 		"jsdoc/require-returns-description": "off",
 		"jsdoc/require-property-description": "off",
-		"jsdoc/require-file-overview": "warn"
+		"jsdoc/require-file-overview": "warn",
+		"jsdoc/valid-types": "off"
 	},
 	"settings": {
 		"jsdoc": {
