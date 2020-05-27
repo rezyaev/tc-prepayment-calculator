@@ -1,6 +1,6 @@
 /** @file Module for tokenizing HTML strings */
 
-// === TYPES ===
+// --- TYPES ---
 
 /** @enum {string} */
 const TokenType = {
@@ -54,7 +54,7 @@ const State = {
 	selfClosingStartTag: 'selfClosingStartTag',
 };
 
-// === ENTRY FUNCTION ===
+// --- ENTRY FUNCTION ---
 
 /**
  * Tokenize html string.
@@ -140,7 +140,7 @@ export const tokenizeHtml = (html, state = State.data, currentToken) => {
 	}
 };
 
-// === FUNCTIONS FOR EACH STATE ===
+// --- FUNCTIONS FOR EACH STATE ---
 
 /**
  * @param {string} character
