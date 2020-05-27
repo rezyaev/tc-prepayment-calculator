@@ -1,72 +1,65 @@
 /** @file Module for tokenizing HTML strings */
 
-// --- TYPES ---
+// TYPES
 
-/** @enum {string} */
-const TokenType = {
-	character: 'character',
-	startTag: 'startTag',
-	endTag: 'endTag',
+enum TokenType {
+	character = 'character',
+	startTag = 'startTag',
+	endTag = 'endTag',
+}
+
+type CharacterToken = {
+	type: TokenType.character;
+	data: string;
 };
 
-/**
- * @typedef {object} CharacterToken
- * @property {TokenType} type
- * @property {string} data
- */
-
-/**
- * @typedef {object} Attribute
- * @property {string} name
- * @property {string} value
- */
-
-/**
- * @typedef {object} StartTagToken
- * @property {TokenType} type
- * @property {string} tagName
- * @property {boolean} [isSelfClosing]
- * @property {Attribute[]} [attributes]
- */
-
-/**
- * @typedef {object} EndTagToken
- * @property {TokenType} type
- * @property {string} tagName
- */
-
-/** @typedef {StartTagToken | EndTagToken} TagToken */
-
-/** @typedef {CharacterToken | TagToken} Token */
-
-/** @enum {string} */
-const State = {
-	data: 'data',
-	tagOpen: 'tagOpen',
-	endTagOpen: 'endTagOpen',
-	tagName: 'tagName',
-	beforeAttributeName: 'beforeAttributeName',
-	attributeName: 'attributeName',
-	afterAttributeName: 'afterAttributeName',
-	beforeAttributeValue: 'beforeAttributeValue',
-	attributeValue: 'attributeValue',
-	afterAttributeValue: 'afterAttributeValue',
-	selfClosingStartTag: 'selfClosingStartTag',
+type Attribute = {
+	name: string;
+	value: string;
 };
 
-// --- ENTRY FUNCTION ---
+type StartTagToken = {
+	type: TokenType.startTag;
+	tagName: string;
+	isSelfClosing?: boolean;
+	attributes?: Attribute[];
+};
+
+type EndTagToken = {
+	type: TokenType.endTag;
+	tagName: string;
+};
+
+type TagToken = StartTagToken | EndTagToken;
+
+type Token = TagToken | CharacterToken;
+
+enum State {
+	data,
+	tagOpen,
+	endTagOpen,
+	tagName,
+	beforeAttributeName,
+	attributeName,
+	afterAttributeName,
+	beforeAttributeValue,
+	attributeValue,
+	afterAttributeValue,
+	selfClosingStartTag,
+}
+
+// ENTRY FUNCTION
 
 /**
  * Tokenize html string.
  * Algorithm is a shortened version of the official HTML specification -
  * https://html.spec.whatwg.org/multipage/parsing.html#tokenization
- *
- * @param {string} html
- * @param {State} [state]
- * @param {Token} [currentToken]
- * @returns {Token[]}
  */
-export const tokenizeHtml = (html, state = State.data, currentToken) => {
+export const tokenizeHtml = (
+	html: string,
+	state: State = State.data,
+	currentToken?: Token
+): Token[] => {
 	if (html.length === 0) return [];
 
 	const [firstCharacter, ...restCharacters] = html;
@@ -86,89 +79,77 @@ export const tokenizeHtml = (html, state = State.data, currentToken) => {
 			return tagNameStateTokenize(
 				firstCharacter,
 				restHtml,
-				/** @type {TagToken} */ (currentToken)
+				currentToken as TagToken
 			);
 
 		case State.beforeAttributeName:
 			return beforeAttributeNameStateTokenize(
 				firstCharacter,
 				restHtml,
-				/** @type {StartTagToken} */ (currentToken)
+				currentToken as StartTagToken
 			);
 
 		case State.attributeName:
 			return attributeNameStateTokenize(
 				firstCharacter,
 				restHtml,
-				/** @type {StartTagToken} */ (currentToken)
+				currentToken as StartTagToken
 			);
 
 		case State.afterAttributeName:
 			return afterAttributeNameStateTokenize(
 				firstCharacter,
 				restHtml,
-				/** @type {StartTagToken} */ (currentToken)
+				currentToken as StartTagToken
 			);
 
 		case State.beforeAttributeValue:
 			return beforeAttributeValueStateTokenize(
 				firstCharacter,
 				restHtml,
-				/** @type {StartTagToken} */ (currentToken)
+				currentToken as StartTagToken
 			);
 
 		case State.attributeValue:
 			return attributeValueStateTokenize(
 				firstCharacter,
 				restHtml,
-				/** @type {StartTagToken} */ (currentToken)
+				currentToken as StartTagToken
 			);
 
 		case State.afterAttributeValue:
 			return afterAttributeValueStateTokenize(
 				firstCharacter,
 				restHtml,
-				/** @type {StartTagToken} */ (currentToken)
+				currentToken as StartTagToken
 			);
 
 		case State.selfClosingStartTag:
 			return selfClosingStartTagStateTokenize(
 				firstCharacter,
 				restHtml,
-				/** @type {StartTagToken} */ (currentToken)
+				currentToken as StartTagToken
 			);
 	}
 };
 
-// --- FUNCTIONS FOR EACH STATE ---
+// FUNCTIONS FOR EACH STATE
 
-/**
- * @param {string} character
- * @param {string} restHtml
- * @returns {Token[]}
- */
-const dataStateTokenize = (character, restHtml) => {
+const dataStateTokenize = (character: string, restHtml: string): Token[] => {
 	switch (character) {
 		case '<':
 			return tokenizeHtml(restHtml, State.tagOpen);
 
 		default:
-			/** @type {CharacterToken} */
-			const token = { type: TokenType.character, data: character };
+			const token: Token = { type: TokenType.character, data: character };
 
 			return [token, ...tokenizeHtml(restHtml)];
 	}
 };
 
-/**
- * @param {string} character
- * @param {string} restHtml
- * @returns {Token[]}
- */
-const tagOpenStateTokenize = (character, restHtml) => {
+const tagOpenStateTokenize = (character: string, restHtml: string): Token[] => {
 	if (/[a-z]/i.test(character)) {
-		/** @type {StartTagToken} */
-		const token = { type: TokenType.startTag, tagName: '' };
+		const token: Token = { type: TokenType.startTag, tagName: '' };
 
 		return tokenizeHtml(`${character}${restHtml}`, State.tagName, token);
 	}
@@ -178,15 +159,12 @@ const tagOpenStateTokenize = (character, restHtml) => {
 	throw { name: 'ParseError', message: 'Invalid first character of tag name' };
 };
 
-/**
- * @param {string} character
- * @param {string} restHtml
- * @returns {Token[]}
- */
-const endTagOpenStateTokenize = (character, restHtml) => {
+const endTagOpenStateTokenize = (
+	character: string,
+	restHtml: string
+): Token[] => {
 	if (/[a-z]/i.test(character)) {
-		/** @type {EndTagToken} */
-		const token = { type: TokenType.endTag, tagName: '' };
+		const token: EndTagToken = { type: TokenType.endTag, tagName: '' };
 
 		return tokenizeHtml(`${character}${restHtml}`, State.tagName, token);
 	}
@@ -197,13 +175,11 @@ const endTagOpenStateTokenize = (character, restHtml) => {
 	throw { name: 'ParseError', message: 'Invalid first character of tag name' };
 };
 
-/**
- * @param {string} character
- * @param {string} restHtml
- * @param {TagToken} [currentToken]
- * @returns {Token[]}
- */
-const tagNameStateTokenize = (character, restHtml, currentToken) => {
+const tagNameStateTokenize = (
+	character: string,
+	restHtml: string,
+	currentToken: TagToken
+): Token[] => {
 	switch (character) {
 		case '\t':
 		case '\n':
@@ -218,7 +194,7 @@ const tagNameStateTokenize = (character, restHtml, currentToken) => {
 
 		default:
 			/** @type {TagToken} */
-			const updatedCurrentToken = {
+			const updatedCurrentToken: TagToken = {
 				...currentToken,
 				tagName: `${currentToken.tagName}${character.toLowerCase()}`,
 			};
@@ -227,17 +203,11 @@ const tagNameStateTokenize = (character, restHtml, currentToken) => {
 	}
 };
 
-/**
- * @param {string} character
- * @param {string} restHtml
- * @param {StartTagToken} [currentToken]
- * @returns {Token[]}
- */
 const beforeAttributeNameStateTokenize = (
-	character,
-	restHtml,
-	currentToken
-) => {
+	character: string,
+	restHtml: string,
+	currentToken: StartTagToken
+): Token[] => {
 	switch (character) {
 		case '\t':
 		case '\n':
@@ -252,7 +222,7 @@ const beforeAttributeNameStateTokenize = (
 
 		default:
 			/** @type {StartTagToken} */
-			const updatedCurrentToken = {
+			const updatedCurrentToken: StartTagToken = {
 				...currentToken,
 				attributes: [
 					...(currentToken.attributes || []),
@@ -264,13 +234,11 @@ const beforeAttributeNameStateTokenize = (
 	}
 };
 
-/**
- * @param {string} character
- * @param {string} restHtml
- * @param {StartTagToken} [currentToken]
- * @returns {Token[]}
- */
-const attributeNameStateTokenize = (character, restHtml, currentToken) => {
+const attributeNameStateTokenize = (
+	character: string,
+	restHtml: string,
+	currentToken: StartTagToken
+): Token[] => {
 	switch (character) {
 		case '\t':
 		case '\n':
@@ -292,13 +260,13 @@ const attributeNameStateTokenize = (character, restHtml, currentToken) => {
 			const restAttributes = attributes.slice(0, attributes.length - 1);
 
 			/** @type {Attribute} */
-			const updatedAttribute = {
+			const updatedAttribute: Attribute = {
 				...lastAttribute,
 				name: `${lastAttribute.name}${character.toLowerCase()}`,
 			};
 
 			/** @type {StartTagToken} */
-			const updatedCurrentToken = {
+			const updatedCurrentToken: StartTagToken = {
 				...currentToken,
 				attributes: [...restAttributes, updatedAttribute],
 			};
@@ -311,13 +279,11 @@ const attributeNameStateTokenize = (character, restHtml, currentToken) => {
 	}
 };
 
-/**
- * @param {string} character
- * @param {string} restHtml
- * @param {StartTagToken} [currentToken]
- * @returns {Token[]}
- */
-const afterAttributeNameStateTokenize = (character, restHtml, currentToken) => {
+const afterAttributeNameStateTokenize = (
+	character: string,
+	restHtml: string,
+	currentToken: StartTagToken
+): Token[] => {
 	switch (character) {
 		case '\t':
 		case '\n':
@@ -335,7 +301,7 @@ const afterAttributeNameStateTokenize = (character, restHtml, currentToken) => {
 
 		default:
 			/** @type {StartTagToken} */
-			const updatedCurrentToken = {
+			const updatedCurrentToken: StartTagToken = {
 				...currentToken,
 				attributes: [
 					...currentToken.attributes,
@@ -347,17 +313,11 @@ const afterAttributeNameStateTokenize = (character, restHtml, currentToken) => {
 	}
 };
 
-/**
- * @param {string} character
- * @param {string} restHtml
- * @param {StartTagToken} [currentToken]
- * @returns {Token[]}
- */
 const beforeAttributeValueStateTokenize = (
-	character,
-	restHtml,
-	currentToken
-) => {
+	character: string,
+	restHtml: string,
+	currentToken: StartTagToken
+): Token[] => {
 	switch (character) {
 		case '\t':
 		case '\n':
@@ -372,13 +332,11 @@ const beforeAttributeValueStateTokenize = (
 	}
 };
 
-/**
- * @param {string} character
- * @param {string} restHtml
- * @param {StartTagToken} [currentToken]
- * @returns {Token[]}
- */
-const attributeValueStateTokenize = (character, restHtml, currentToken) => {
+const attributeValueStateTokenize = (
+	character: string,
+	restHtml: string,
+	currentToken: StartTagToken
+): Token[] => {
 	switch (character) {
 		case '"':
 			return tokenizeHtml(restHtml, State.afterAttributeValue, currentToken);
@@ -389,13 +347,13 @@ const attributeValueStateTokenize = (character, restHtml, currentToken) => {
 			const restAttributes = attributes.slice(0, attributes.length - 1);
 
 			/** @type {Attribute} */
-			const updatedAttribute = {
+			const updatedAttribute: Attribute = {
 				...lastAttribute,
 				value: `${lastAttribute.value}${character.toLowerCase()}`,
 			};
 
 			/** @type {StartTagToken} */
-			const updatedCurrentToken = {
+			const updatedCurrentToken: StartTagToken = {
 				...currentToken,
 				attributes: [...restAttributes, updatedAttribute],
 			};
@@ -408,17 +366,11 @@ const attributeValueStateTokenize = (character, restHtml, currentToken) => {
 	}
 };
 
-/**
- * @param {string} character
- * @param {string} restHtml
- * @param {StartTagToken} [currentToken]
- * @returns {Token[]}
- */
 const afterAttributeValueStateTokenize = (
-	character,
-	restHtml,
-	currentToken
-) => {
+	character: string,
+	restHtml: string,
+	currentToken: StartTagToken
+): Token[] => {
 	switch (character) {
 		case '\t':
 		case '\n':
@@ -439,21 +391,18 @@ const afterAttributeValueStateTokenize = (
 	}
 };
 
-/**
- * @param {string} character
- * @param {string} restHtml
- * @param {StartTagToken} [currentToken]
- * @returns {Token[]}
- */
 const selfClosingStartTagStateTokenize = (
-	character,
-	restHtml,
-	currentToken
-) => {
+	character: string,
+	restHtml: string,
+	currentToken: StartTagToken
+): Token[] => {
 	switch (character) {
 		case '>':
 			/** @type {StartTagToken} */
-			const updatedCurrentToken = { ...currentToken, isSelfClosing: true };
+			const updatedCurrentToken: StartTagToken = {
+				...currentToken,
+				isSelfClosing: true,
+			};
 
 			return [updatedCurrentToken, ...tokenizeHtml(restHtml, State.data)];
 
