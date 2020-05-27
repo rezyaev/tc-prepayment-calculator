@@ -1,3 +1,7 @@
+/** @file Module for tokenizing HTML strings */
+
+// === TYPES ===
+
 /** @enum {string} */
 const TokenType = {
 	character: 'character',
@@ -32,10 +36,11 @@ const TokenType = {
  */
 
 /** @typedef {StartTagToken | EndTagToken} TagToken */
+
 /** @typedef {CharacterToken | TagToken} Token */
 
 /** @enum {string} */
-const TokenizerState = {
+const State = {
 	data: 'data',
 	tagOpen: 'tagOpen',
 	endTagOpen: 'endTagOpen',
@@ -49,83 +54,85 @@ const TokenizerState = {
 	selfClosingStartTag: 'selfClosingStartTag',
 };
 
+// === ENTRY FUNCTION ===
+
 /**
+ * Tokenize html string.
+ * Algorithm is a shortened version of the official HTML specification -
+ * https://html.spec.whatwg.org/multipage/parsing.html#tokenization
+ *
  * @param {string} html
- * @param {TokenizerState} [state]
+ * @param {State} [state]
  * @param {Token} [currentToken]
  * @returns {Token[]}
  */
-export const tokenizeHtml = (
-	html,
-	state = TokenizerState.data,
-	currentToken
-) => {
+export const tokenizeHtml = (html, state = State.data, currentToken) => {
 	if (html.length === 0) return [];
 
 	const [firstCharacter, ...restCharacters] = html;
 	const restHtml = restCharacters.join('');
 
 	switch (state) {
-		case TokenizerState.data:
-			return processDataState(firstCharacter, restHtml);
+		case State.data:
+			return dataStateTokenize(firstCharacter, restHtml);
 
-		case TokenizerState.tagOpen:
-			return processTagOpenState(firstCharacter, restHtml);
+		case State.tagOpen:
+			return tagOpenStateTokenize(firstCharacter, restHtml);
 
-		case TokenizerState.endTagOpen:
-			return processEndTagOpenState(firstCharacter, restHtml);
+		case State.endTagOpen:
+			return endTagOpenStateTokenize(firstCharacter, restHtml);
 
-		case TokenizerState.tagName:
-			return processTagNameState(
+		case State.tagName:
+			return tagNameStateTokenize(
 				firstCharacter,
 				restHtml,
 				/** @type {TagToken} */ (currentToken)
 			);
 
-		case TokenizerState.beforeAttributeName:
-			return processBeforeAttributeNameState(
+		case State.beforeAttributeName:
+			return beforeAttributeNameStateTokenize(
 				firstCharacter,
 				restHtml,
 				/** @type {StartTagToken} */ (currentToken)
 			);
 
-		case TokenizerState.attributeName:
-			return processAttributeNameState(
+		case State.attributeName:
+			return attributeNameStateTokenize(
 				firstCharacter,
 				restHtml,
 				/** @type {StartTagToken} */ (currentToken)
 			);
 
-		case TokenizerState.afterAttributeName:
-			return processAfterAttributeNameState(
+		case State.afterAttributeName:
+			return afterAttributeNameStateTokenize(
 				firstCharacter,
 				restHtml,
 				/** @type {StartTagToken} */ (currentToken)
 			);
 
-		case TokenizerState.beforeAttributeValue:
-			return processBeforeAttributeValueState(
+		case State.beforeAttributeValue:
+			return beforeAttributeValueStateTokenize(
 				firstCharacter,
 				restHtml,
 				/** @type {StartTagToken} */ (currentToken)
 			);
 
-		case TokenizerState.attributeValue:
-			return processAttributeValueState(
+		case State.attributeValue:
+			return attributeValueStateTokenize(
 				firstCharacter,
 				restHtml,
 				/** @type {StartTagToken} */ (currentToken)
 			);
 
-		case TokenizerState.afterAttributeValue:
-			return processAfterAttributeValueState(
+		case State.afterAttributeValue:
+			return afterAttributeValueStateTokenize(
 				firstCharacter,
 				restHtml,
 				/** @type {StartTagToken} */ (currentToken)
 			);
 
-		case TokenizerState.selfClosingStartTag:
-			return processSelfClosingStartTagState(
+		case State.selfClosingStartTag:
+			return selfClosingStartTagStateTokenize(
 				firstCharacter,
 				restHtml,
 				/** @type {StartTagToken} */ (currentToken)
@@ -133,15 +140,17 @@ export const tokenizeHtml = (
 	}
 };
 
+// === FUNCTIONS FOR EACH STATE ===
+
 /**
  * @param {string} character
  * @param {string} restHtml
  * @returns {Token[]}
  */
-const processDataState = (character, restHtml) => {
+const dataStateTokenize = (character, restHtml) => {
 	switch (character) {
 		case '<':
-			return tokenizeHtml(restHtml, TokenizerState.tagOpen);
+			return tokenizeHtml(restHtml, State.tagOpen);
 
 		default:
 			/** @type {CharacterToken} */
@@ -156,20 +165,15 @@ const processDataState = (character, restHtml) => {
  * @param {string} restHtml
  * @returns {Token[]}
  */
-const processTagOpenState = (character, restHtml) => {
+const tagOpenStateTokenize = (character, restHtml) => {
 	if (/[a-z]/i.test(character)) {
 		/** @type {StartTagToken} */
 		const token = { type: TokenType.startTag, tagName: '' };
 
-		return tokenizeHtml(
-			`${character}${restHtml}`,
-			TokenizerState.tagName,
-			token
-		);
+		return tokenizeHtml(`${character}${restHtml}`, State.tagName, token);
 	}
 
-	if (character === '/')
-		return tokenizeHtml(restHtml, TokenizerState.endTagOpen);
+	if (character === '/') return tokenizeHtml(restHtml, State.endTagOpen);
 
 	throw { name: 'ParseError', message: 'Invalid first character of tag name' };
 };
@@ -179,16 +183,12 @@ const processTagOpenState = (character, restHtml) => {
  * @param {string} restHtml
  * @returns {Token[]}
  */
-const processEndTagOpenState = (character, restHtml) => {
+const endTagOpenStateTokenize = (character, restHtml) => {
 	if (/[a-z]/i.test(character)) {
 		/** @type {EndTagToken} */
 		const token = { type: TokenType.endTag, tagName: '' };
 
-		return tokenizeHtml(
-			`${character}${restHtml}`,
-			TokenizerState.tagName,
-			token
-		);
+		return tokenizeHtml(`${character}${restHtml}`, State.tagName, token);
 	}
 
 	if (character === '>')
@@ -203,26 +203,18 @@ const processEndTagOpenState = (character, restHtml) => {
  * @param {TagToken} [currentToken]
  * @returns {Token[]}
  */
-const processTagNameState = (character, restHtml, currentToken) => {
+const tagNameStateTokenize = (character, restHtml, currentToken) => {
 	switch (character) {
 		case '\t':
 		case '\n':
 		case ' ':
-			return tokenizeHtml(
-				restHtml,
-				TokenizerState.beforeAttributeName,
-				currentToken
-			);
+			return tokenizeHtml(restHtml, State.beforeAttributeName, currentToken);
 
 		case '/':
-			return tokenizeHtml(
-				restHtml,
-				TokenizerState.selfClosingStartTag,
-				currentToken
-			);
+			return tokenizeHtml(restHtml, State.selfClosingStartTag, currentToken);
 
 		case '>':
-			return [currentToken, ...tokenizeHtml(restHtml, TokenizerState.data)];
+			return [currentToken, ...tokenizeHtml(restHtml, State.data)];
 
 		default:
 			/** @type {TagToken} */
@@ -231,11 +223,7 @@ const processTagNameState = (character, restHtml, currentToken) => {
 				tagName: `${currentToken.tagName}${character.toLowerCase()}`,
 			};
 
-			return tokenizeHtml(
-				restHtml,
-				TokenizerState.tagName,
-				updatedCurrentToken
-			);
+			return tokenizeHtml(restHtml, State.tagName, updatedCurrentToken);
 	}
 };
 
@@ -245,26 +233,22 @@ const processTagNameState = (character, restHtml, currentToken) => {
  * @param {StartTagToken} [currentToken]
  * @returns {Token[]}
  */
-const processBeforeAttributeNameState = (character, restHtml, currentToken) => {
+const beforeAttributeNameStateTokenize = (
+	character,
+	restHtml,
+	currentToken
+) => {
 	switch (character) {
 		case '\t':
 		case '\n':
 		case ' ':
-			return tokenizeHtml(
-				restHtml,
-				TokenizerState.beforeAttributeName,
-				currentToken
-			);
+			return tokenizeHtml(restHtml, State.beforeAttributeName, currentToken);
 
 		case '/':
-			return tokenizeHtml(
-				restHtml,
-				TokenizerState.selfClosingStartTag,
-				currentToken
-			);
+			return tokenizeHtml(restHtml, State.selfClosingStartTag, currentToken);
 
 		case '>':
-			return [currentToken, ...tokenizeHtml(restHtml, TokenizerState.data)];
+			return [currentToken, ...tokenizeHtml(restHtml, State.data)];
 
 		default:
 			/** @type {StartTagToken} */
@@ -276,11 +260,7 @@ const processBeforeAttributeNameState = (character, restHtml, currentToken) => {
 				],
 			};
 
-			return tokenizeHtml(
-				restHtml,
-				TokenizerState.attributeName,
-				updatedCurrentToken
-			);
+			return tokenizeHtml(restHtml, State.attributeName, updatedCurrentToken);
 	}
 };
 
@@ -290,33 +270,21 @@ const processBeforeAttributeNameState = (character, restHtml, currentToken) => {
  * @param {StartTagToken} [currentToken]
  * @returns {Token[]}
  */
-const processAttributeNameState = (character, restHtml, currentToken) => {
+const attributeNameStateTokenize = (character, restHtml, currentToken) => {
 	switch (character) {
 		case '\t':
 		case '\n':
 		case ' ':
-			return tokenizeHtml(
-				restHtml,
-				TokenizerState.afterAttributeName,
-				currentToken
-			);
+			return tokenizeHtml(restHtml, State.afterAttributeName, currentToken);
 
 		case '/':
-			return tokenizeHtml(
-				restHtml,
-				TokenizerState.selfClosingStartTag,
-				currentToken
-			);
+			return tokenizeHtml(restHtml, State.selfClosingStartTag, currentToken);
 
 		case '=':
-			return tokenizeHtml(
-				restHtml,
-				TokenizerState.beforeAttributeValue,
-				currentToken
-			);
+			return tokenizeHtml(restHtml, State.beforeAttributeValue, currentToken);
 
 		case '>':
-			return [currentToken, ...tokenizeHtml(restHtml, TokenizerState.data)];
+			return [currentToken, ...tokenizeHtml(restHtml, State.data)];
 
 		default:
 			const { attributes } = currentToken;
@@ -335,7 +303,7 @@ const processAttributeNameState = (character, restHtml, currentToken) => {
 				attributes: [...restAttributes, updatedAttribute],
 			};
 
-			return processAttributeNameState(
+			return attributeNameStateTokenize(
 				restHtml[0],
 				restHtml.slice(1),
 				updatedCurrentToken
@@ -349,33 +317,21 @@ const processAttributeNameState = (character, restHtml, currentToken) => {
  * @param {StartTagToken} [currentToken]
  * @returns {Token[]}
  */
-const processAfterAttributeNameState = (character, restHtml, currentToken) => {
+const afterAttributeNameStateTokenize = (character, restHtml, currentToken) => {
 	switch (character) {
 		case '\t':
 		case '\n':
 		case ' ':
-			return tokenizeHtml(
-				restHtml,
-				TokenizerState.afterAttributeName,
-				currentToken
-			);
+			return tokenizeHtml(restHtml, State.afterAttributeName, currentToken);
 
 		case '/':
-			return tokenizeHtml(
-				restHtml,
-				TokenizerState.selfClosingStartTag,
-				currentToken
-			);
+			return tokenizeHtml(restHtml, State.selfClosingStartTag, currentToken);
 
 		case '=':
-			return tokenizeHtml(
-				restHtml,
-				TokenizerState.beforeAttributeValue,
-				currentToken
-			);
+			return tokenizeHtml(restHtml, State.beforeAttributeValue, currentToken);
 
 		case '>':
-			return [currentToken, ...tokenizeHtml(restHtml, TokenizerState.data)];
+			return [currentToken, ...tokenizeHtml(restHtml, State.data)];
 
 		default:
 			/** @type {StartTagToken} */
@@ -387,11 +343,7 @@ const processAfterAttributeNameState = (character, restHtml, currentToken) => {
 				],
 			};
 
-			return tokenizeHtml(
-				restHtml,
-				TokenizerState.attributeName,
-				updatedCurrentToken
-			);
+			return tokenizeHtml(restHtml, State.attributeName, updatedCurrentToken);
 	}
 };
 
@@ -401,7 +353,7 @@ const processAfterAttributeNameState = (character, restHtml, currentToken) => {
  * @param {StartTagToken} [currentToken]
  * @returns {Token[]}
  */
-const processBeforeAttributeValueState = (
+const beforeAttributeValueStateTokenize = (
 	character,
 	restHtml,
 	currentToken
@@ -410,21 +362,13 @@ const processBeforeAttributeValueState = (
 		case '\t':
 		case '\n':
 		case ' ':
-			return tokenizeHtml(
-				restHtml,
-				TokenizerState.beforeAttributeValue,
-				currentToken
-			);
+			return tokenizeHtml(restHtml, State.beforeAttributeValue, currentToken);
 
 		case '>':
-			return [currentToken, ...tokenizeHtml(restHtml, TokenizerState.data)];
+			return [currentToken, ...tokenizeHtml(restHtml, State.data)];
 
 		default:
-			return tokenizeHtml(
-				restHtml,
-				TokenizerState.attributeValue,
-				currentToken
-			);
+			return tokenizeHtml(restHtml, State.attributeValue, currentToken);
 	}
 };
 
@@ -434,14 +378,10 @@ const processBeforeAttributeValueState = (
  * @param {StartTagToken} [currentToken]
  * @returns {Token[]}
  */
-const processAttributeValueState = (character, restHtml, currentToken) => {
+const attributeValueStateTokenize = (character, restHtml, currentToken) => {
 	switch (character) {
 		case '"':
-			return tokenizeHtml(
-				restHtml,
-				TokenizerState.afterAttributeValue,
-				currentToken
-			);
+			return tokenizeHtml(restHtml, State.afterAttributeValue, currentToken);
 
 		default:
 			const { attributes } = currentToken;
@@ -460,7 +400,7 @@ const processAttributeValueState = (character, restHtml, currentToken) => {
 				attributes: [...restAttributes, updatedAttribute],
 			};
 
-			return processAttributeValueState(
+			return attributeValueStateTokenize(
 				restHtml[0],
 				restHtml.slice(1),
 				updatedCurrentToken
@@ -474,26 +414,22 @@ const processAttributeValueState = (character, restHtml, currentToken) => {
  * @param {StartTagToken} [currentToken]
  * @returns {Token[]}
  */
-const processAfterAttributeValueState = (character, restHtml, currentToken) => {
+const afterAttributeValueStateTokenize = (
+	character,
+	restHtml,
+	currentToken
+) => {
 	switch (character) {
 		case '\t':
 		case '\n':
 		case ' ':
-			return tokenizeHtml(
-				restHtml,
-				TokenizerState.beforeAttributeName,
-				currentToken
-			);
+			return tokenizeHtml(restHtml, State.beforeAttributeName, currentToken);
 
 		case '/':
-			return tokenizeHtml(
-				restHtml,
-				TokenizerState.selfClosingStartTag,
-				currentToken
-			);
+			return tokenizeHtml(restHtml, State.selfClosingStartTag, currentToken);
 
 		case '>':
-			return [currentToken, ...tokenizeHtml(restHtml, TokenizerState.data)];
+			return [currentToken, ...tokenizeHtml(restHtml, State.data)];
 
 		default:
 			throw {
@@ -509,16 +445,17 @@ const processAfterAttributeValueState = (character, restHtml, currentToken) => {
  * @param {StartTagToken} [currentToken]
  * @returns {Token[]}
  */
-const processSelfClosingStartTagState = (character, restHtml, currentToken) => {
+const selfClosingStartTagStateTokenize = (
+	character,
+	restHtml,
+	currentToken
+) => {
 	switch (character) {
 		case '>':
 			/** @type {StartTagToken} */
 			const updatedCurrentToken = { ...currentToken, isSelfClosing: true };
 
-			return [
-				updatedCurrentToken,
-				...tokenizeHtml(restHtml, TokenizerState.data),
-			];
+			return [updatedCurrentToken, ...tokenizeHtml(restHtml, State.data)];
 
 		default:
 			throw { name: 'ParseError', message: 'Unexpected solidus in tag' };
