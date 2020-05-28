@@ -3,9 +3,9 @@
 // TYPES
 
 enum TokenType {
-	character = 'character',
-	startTag = 'startTag',
-	endTag = 'endTag',
+	character,
+	startTag,
+	endTag,
 }
 
 type CharacterToken = {
