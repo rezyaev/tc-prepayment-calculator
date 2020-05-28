@@ -8,24 +8,24 @@ enum TokenType {
 	endTag,
 }
 
-type CharacterToken = {
+interface CharacterToken {
 	type: TokenType.character;
 	data: string;
 };
 
-type Attribute = {
+interface Attribute {
 	name: string;
 	value: string;
 };
 
-type StartTagToken = {
+interface StartTagToken {
 	type: TokenType.startTag;
 	tagName: string;
 	isSelfClosing?: boolean;
 	attributes?: Attribute[];
 };
 
-type EndTagToken = {
+interface EndTagToken {
 	type: TokenType.endTag;
 	tagName: string;
 };
