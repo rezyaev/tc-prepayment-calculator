@@ -1,0 +1,12 @@
+{
+  "name": "TC Prepayment Calculator",
+  "start_url": ".",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "assets/icons/1024.png",
+      "type": "image/png",
+      "sizes": "1024x1024"
+    }
+  ]
+}
